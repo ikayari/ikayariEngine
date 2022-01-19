@@ -36,6 +36,7 @@
 
 #include "graphics/d3dx12.h"
 
+
 const int MAX_RENDERING_TARGET = D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT;	//レンダリングターゲットの最大数。
 
 using namespace Microsoft::WRL;
@@ -73,6 +74,7 @@ using namespace Microsoft::WRL;
 
 #include "graphics/Sprite.h"
 #include "graphics/Model.h"
+#include "ModelRender.h"
 #include "HID/GamePad.h"
 
 #include "graphics/GaussianBlur.h"
