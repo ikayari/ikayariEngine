@@ -1,10 +1,12 @@
 #include "k2EngineLowPreCompile.h"
 #include "k2EngineLow.h"
 #include "graphics/Texture.h"
+#include "DirectionalLight.h"
 
 namespace nsK2EngineLow {
 	K2EngineLow* g_engine = nullptr;
 	GameTime* g_gameTime = nullptr;
+	
 
 	K2EngineLow::~K2EngineLow()
 	{
@@ -12,6 +14,7 @@ namespace nsK2EngineLow {
 		g_graphicsEngine = nullptr;
 		g_gameTime = nullptr;
 		
+	
 		delete m_graphicsEngine;
 		
 		//ゲームオブジェクトマネージャーを削除。
@@ -33,7 +36,7 @@ namespace nsK2EngineLow {
 		for (int i = 0; i < GamePad::CONNECT_PAD_MAX; i++) {
 			g_pad[i] = &m_pad[i];
 		}
-
+		
 		GameObjectManager::CreateInstance();
 		PhysicsWorld::CreateInstance();
 		g_soundEngine = new SoundEngine();

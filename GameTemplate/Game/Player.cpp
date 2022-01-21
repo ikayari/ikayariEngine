@@ -25,9 +25,9 @@ void Player::Update()
 	{
 		m_modelRender.PlayAnimation(enAnimClip_Idle, 0.1f);
 	}
-	if (g_pad[0]->IsTrigger(enButtonY))
+	if (g_pad[0]->IsPress(enButtonY))
 	{
-		m_rotation.AddRotationDegY(90.0f);
+		m_rotation.AddRotationDegY(5.0f);
 		m_modelRender.SetRotation(m_rotation);
 	}
 	Vector3 moveSpeed;

@@ -1,4 +1,4 @@
-#include "k2EngineLowPreCompile.h"
+ï»¿#include "k2EngineLowPreCompile.h"
 #include "ModelRender.h"
 
 namespace nsK2EngineLow {
@@ -6,14 +6,20 @@ namespace nsK2EngineLow {
 
 	ModelRender::ModelRender()
 	{
-		//ƒVƒF[ƒ_[ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒpƒXB‰Šúó‘Ô‚Ímodel.fxB
+		//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã€‚åˆæœŸçŠ¶æ…‹ã¯model.fxã€‚
 		m_initData.m_fxFilePath = "Assets/shader/model.fx";
-		//ƒmƒ“ƒXƒLƒ“ƒƒbƒVƒ…—p‚Ì’¸“_ƒVƒF[ƒ_[‚ÌƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg‚ğw’è‚·‚éB
+		//ãƒãƒ³ã‚¹ã‚­ãƒ³ãƒ¡ãƒƒã‚·ãƒ¥ç”¨ã®é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆã‚’æŒ‡å®šã™ã‚‹ã€‚
 		m_initData.m_vsEntryPointFunc = "VSMain";
-		//ƒXƒLƒ“ƒƒbƒVƒ…—p‚Ì’¸“_ƒVƒF[ƒ_[‚ÌƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg‚ğw’èB
+		//ã‚¹ã‚­ãƒ³ãƒ¡ãƒƒã‚·ãƒ¥ç”¨ã®é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆã‚’æŒ‡å®šã€‚
 		m_initData.m_vsSkinEntryPointFunc = "VSSkinMain";
+				
+		//ãƒ‡ã‚£ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ãƒ©ã‚¤ãƒˆã®æƒ…å ±ã‚’å®šæ•°ãƒãƒƒãƒ•ã‚¡ã¨ã—ã¦ãƒ‡ã‚£ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã«ç™»éŒ²ã™ã‚‹ãŸã‚ã«
+		//ãƒ¢ãƒ‡ãƒ«ã®åˆæœŸåŒ–æƒ…å ±ã¨ã—ã¦æ¸¡ã™ã€‚
+		m_initData.m_expandConstantBuffer = &g_directionLight.GetDirectionLight();
+		m_initData.m_expandConstantBufferSize = sizeof(g_directionLight.GetDirectionLight());
 
 	}
+
 	ModelRender::~ModelRender()
 	{
 
@@ -21,7 +27,7 @@ namespace nsK2EngineLow {
 
 	void ModelRender::Update()
 	{
-		//ƒAƒjƒ[ƒVƒ‡ƒ“‚ği‚ß‚éB
+		//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’é€²ã‚ã‚‹ã€‚
 		m_animation.Progress(g_gameTime->GetFrameDeltaTime());
 		m_skeleton.Update(m_model.GetWorldMatrix());
 		m_model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
@@ -37,7 +43,7 @@ namespace nsK2EngineLow {
 	{
 		m_initData.m_tkmFilePath = filePath;
 		InitSkeleton(filePath);
-		//ƒXƒPƒ‹ƒgƒ“‚ğw’è‚·‚éB
+		//ã‚¹ã‚±ãƒ«ãƒˆãƒ³ã‚’æŒ‡å®šã™ã‚‹ã€‚
 		m_initData.m_skeleton = &m_skeleton;
 
 		InitAnimation(animationClips, numAnimationClips, enModelUpAxis);
@@ -53,7 +59,7 @@ namespace nsK2EngineLow {
 	}
 	void ModelRender::InitSkeleton(const char* filePath)
 	{
-		//ƒXƒPƒ‹ƒgƒ“‚Ìƒf[ƒ^‚ğ“Ç‚İ‚İB
+		//ã‚¹ã‚±ãƒ«ãƒˆãƒ³ã®ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã¿ã€‚
 		std::string skeletonFilePath = filePath;
 		int pos = (int)skeletonFilePath.find(".tkm");
 		skeletonFilePath.replace(pos, 4, ".tks");

@@ -11,7 +11,11 @@ bool Game::Start()
 }
 void Game::Update()
 {
-	
+	if (g_pad[0]->IsTrigger(enButtonStart))
+	{
+		Vector3 red{ 10.0f,0.0f,0.0f };
+		g_directionLight.SetColor(red);
+	}
 }
 void Game::Render(RenderContext& rc)
 {

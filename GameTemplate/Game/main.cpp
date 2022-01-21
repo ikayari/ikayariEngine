@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "system/system.h"
-
 #include "Game.h"
 
 // K2EngineLowのグローバルアクセスポイント。
@@ -39,7 +38,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		// フレームの終了時に呼び出す必要がある処理を実行。
 		g_k2EngineLow->EndFrame();
 	}
-
 	delete g_k2EngineLow;
 
 	return 0;
