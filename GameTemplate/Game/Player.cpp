@@ -34,8 +34,10 @@ void Player::Update()
 	moveSpeed.x = g_pad[0]->GetLStickXF() * 120.0f;
 	moveSpeed.z = g_pad[0]->GetLStickYF() * 120.0f;
 	m_position=m_charaCon.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
-	m_modelRender.SetPosition(m_position);
+	//m_modelRender.SetPosition(m_position);
 	m_modelRender.Update();
+	g_sceneLight.SetPointLightPosition(m_position);
+
 
 }
 

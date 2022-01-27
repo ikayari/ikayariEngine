@@ -20,14 +20,9 @@ namespace nsK2EngineLow {
 		/// <param name="numAnimationClips">アニメーションの数</param>
 		/// <param name="enModelUpAxis">モデルの上方向</param>
 		void Init(const char* filePath,
-			AnimationClip* animationClips,
-			int numAnimationClips,
+			AnimationClip* animationClips=nullptr,
+			int numAnimationClips=0,
 			EnModelUpAxis enModelUpAxis = enModelUpAxisZ);
-		/// <summary>
-		/// 初期化処理。
-		/// </summary>
-		/// <param name="filePath">ファイルパス</param>
-		void Init(const char* filePath);
 		/// <summary>
 		/// 描画処理。
 		/// </summary>
@@ -101,7 +96,6 @@ namespace nsK2EngineLow {
 			int numAnimationClips,
 			EnModelUpAxis enModelUpAxis);
 		Model					m_model;								//モデル。
-		ModelInitData			m_initData;								//初期化データ。
 		Animation				m_animation;							//アニメーション。
 		AnimationClip*			m_animationClip = nullptr;				//アニメーションクリップ。
 		int						m_numAnimationClips = 0;				//アニメーションクリップの数。
@@ -111,14 +105,8 @@ namespace nsK2EngineLow {
 		Quaternion				m_rotation = Quaternion::Identity;		//回転。
 		Vector3					m_scale = Vector3::One;					//拡大率。
 		EnModelUpAxis			m_enFbxUpAxis = enModelUpAxisZ;			// FBXの上方向。
-		struct DirectionLight {
-			Vector3 ligDirection; //ライトの⽅向。
-			//HLSL側の定数バッファのfloat3型の変数は16の倍数のアドレスに配置されるため、C++側にはパディングを埋めておく。
-			float pad;
-			Vector3 ligColor; //ライトのカラー。
-		};
-
-		DirectionLight m_directionLight;
+		
+		
 		
 
 	};
