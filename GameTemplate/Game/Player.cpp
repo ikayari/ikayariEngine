@@ -38,6 +38,22 @@ void Player::Update()
 	m_modelRender.Update();
 	g_sceneLight.SetPointLightPosition(m_position);
 
+	// step-4 コントローラー右スティックでスポットライトを回転させる
+		// Y軸周りの回転クォータニオンを計算する
+	Quaternion qRotY;
+	qRotY.SetRotationY(g_pad[0]->GetRStickXF() * 0.01f);
+
+	// 計算したクォータニオンでライトの方向を回す
+	g_sceneLight.ApplySpotLightRotation(qRotY);
+
+	// X軸周りの回転クォータニオンを計算する
+	Vector3 rotAxis;
+	rotAxis.Cross(g_vec3AxisY,g_sceneLight.GetSpotLightDirection());
+	Quaternion qRotX;
+	qRotX.SetRotation(rotAxis, g_pad[0]->GetRStickYF() * -0.01f);
+
+	// 計算したクォータニオンでライトの方向を回す
+	g_sceneLight.ApplySpotLightRotation(qRotX);
 
 }
 
