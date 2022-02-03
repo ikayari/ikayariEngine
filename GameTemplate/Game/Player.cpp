@@ -30,9 +30,25 @@ void Player::Update()
 		m_rotation.AddRotationDegY(5.0f);
 		m_modelRender.SetRotation(m_rotation);
 	}
+	Vector3 stickL;
+	stickL.x = g_pad[0]->GetLStickXF();
+	stickL.y = g_pad[0]->GetLStickYF();
 	Vector3 moveSpeed;
-	moveSpeed.x = g_pad[0]->GetLStickXF() * 120.0f;
-	moveSpeed.z = g_pad[0]->GetLStickYF() * 120.0f;
+	//カメラの前方向と右方向のベクトルを持ってくる。
+	Vector3 forward = g_camera3D->GetForward();
+	Vector3 right = g_camera3D->GetRight();
+	//y方向には移動させない。
+	forward.y = 0.0f;
+	right.y = 0.0f;
+
+	forward.Normalize();
+	right.Normalize();
+	//左スティックの入力量と120.0fを乗算。
+	right *= stickL.x * 120.0f;
+	forward *= stickL.y * 120.0f;
+
+	//移動速度に上記で計算したベクトルを加算する。
+	moveSpeed += right + forward;
 	m_position=m_charaCon.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 	//m_modelRender.SetPosition(m_position);
 	m_modelRender.Update();

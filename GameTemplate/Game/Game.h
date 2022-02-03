@@ -1,6 +1,7 @@
 #pragma once
-class BackGround;
+
 class Player;
+class GameCamera;
 class Game : public IGameObject
 {
 public:
@@ -10,6 +11,10 @@ public:
 	void Render(RenderContext& rc) override;
 private:
 	Player* m_player = nullptr;
-	BackGround* m_backGround = nullptr;
+	GameCamera* m_camera = nullptr;
+
+	ModelRender m_modelRender;
+	SpriteRender m_spriteRender;
+
 };
 

@@ -8,6 +8,10 @@ public:
 	void Render(RenderContext& rc);
 
 	bool Start();
+	Vector3& GetPosition()
+	{
+		return m_position;
+	}
 private:
 	// アニメーションクリップの番号を表す列挙型。
 	enum EnAnimationClip {
