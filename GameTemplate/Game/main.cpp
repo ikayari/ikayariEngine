@@ -21,9 +21,30 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_sceneLight.SeteyePosition(g_camera3D->GetPosition());
 
 	NewGO<Game>(0, "game");
+
+
+	g_postEffect.Init();
+	//step-2 ポストエフェクト実行用のスプライトを初期化する。
+	//スプライトの初期化オブジェクトを作成する。
+	SpriteInitData spriteInitData;
+	//【重要！！！】テクスチャはオフスクリーンレンダリングされた絵。
+	spriteInitData.m_textures[0] = &g_postEffect.offscreenRenderTarget.GetRenderTargetTexture();
+	//【重要！！！】全画面描画なのでスプライトのサイズはフレームバッファと同じにする。
+	spriteInitData.m_width = 1600;
+	spriteInitData.m_height = 900;
+	//【重要！！！】モノクロ用のシェーダーを指定する。
+	spriteInitData.m_fxFilePath = "Assets/shader/samplePostEffect.fx";
+	//初期化オブジェクトを使って、スプライトを初期化する。
+	Sprite monochromeSprite;
+	monochromeSprite.Init(spriteInitData);
+
+
+	
 	// ここからゲームループ。
 	while (DispatchWindowMessage())
 	{
+		auto& renderContext = g_graphicsEngine->GetRenderContext();
+
 		// フレームの開始時に呼び出す必要がある処理を実行
 		g_k2EngineLow->BeginFrame();
 
@@ -32,6 +53,17 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		// ゲームオブジェクトマネージャーの描画処理を呼び出す。
 		g_k2EngineLow->ExecuteRender();
+
+		g_postEffect.Render(renderContext);
+		
+		//TODO オフスクリーンレンダリングの処理
+
+
+		//TODO spriteの描画。
+		if (g_pad[0]->IsPress(enButtonLB1))
+		{
+			monochromeSprite.Draw(renderContext);
+		}
 
 		// デバッグ描画処理を実行する。
 		g_k2EngineLow->DebubDrawWorld();

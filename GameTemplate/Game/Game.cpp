@@ -5,7 +5,7 @@
 
 bool Game::Start()
 {
-	m_spriteRender.Init("Assets/sprite/sample.dds", 1920, 1080);
+	m_spriteRender.Init("Assets/sprite/sample.dds", 1600, 900);
 	m_player = NewGO<Player>(0, "player");
 	m_camera = NewGO<GameCamera>(0, "gamecamera");
 	m_modelRender.Init("Assets/modelData/bg/bg.tkm");
@@ -38,9 +38,9 @@ void Game::Update()
 }
 void Game::Render(RenderContext& rc)
 {
-	
-	m_modelRender.Draw(rc);
 	m_spriteRender.Draw(rc);
+	m_modelRender.Draw(rc);
+
 
 	
 }
