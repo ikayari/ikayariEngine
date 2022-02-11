@@ -16,5 +16,6 @@ private:
 	ModelRender m_modelRender;
 	SpriteRender m_spriteRender;
 
+	Vector3 col = Vector3::Zero;
 };
 

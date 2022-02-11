@@ -8,7 +8,7 @@ bool Game::Start()
 	m_spriteRender.Init("Assets/sprite/sample.dds", 1600, 900);
 	m_player = NewGO<Player>(0, "player");
 	m_camera = NewGO<GameCamera>(0, "gamecamera");
-	m_modelRender.Init("Assets/modelData/bg/bg.tkm");
+	//m_modelRender.Init("Assets/modelData/bg/bg.tkm");
 
 
 	
@@ -30,6 +30,15 @@ void Game::Update()
 	{
 		g_sceneLight.SetPointLightPosition({ 0.0f, 25.0f, 0.0f });
 	}
+	if (g_pad[0]->IsPress(enButtonUp))
+	{
+		col += {0.01f,0.01f,0.01f};
+	}
+	if (g_pad[0]->IsPress(enButtonDown))
+	{
+		col -= {0.01f, 0.01f, 0.01f};
+	}
+	g_sceneLight.SetDirectionColor(col);
 
 
 
@@ -38,7 +47,7 @@ void Game::Update()
 }
 void Game::Render(RenderContext& rc)
 {
-	m_spriteRender.Draw(rc);
+	//m_spriteRender.Draw(rc);
 	m_modelRender.Draw(rc);
 
 
