@@ -55,15 +55,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		// ゲームオブジェクトマネージャーの描画処理を呼び出す。
 		g_k2EngineLow->ExecuteRender();
 
-		g_postEffect.Render(renderContext);
 		
 		//TODO オフスクリーンレンダリングの処理
-		
+		g_postEffect.Render(renderContext);
+
 		//TODO spriteの描画。
-		if (g_pad[0]->IsPress(enButtonLB1))
-		{
-			monochromeSprite.Draw(renderContext);
-		}
+		g_renderingEngine.SpriteRenderDraw(renderContext);
 
 		// デバッグ描画処理を実行する。
 		g_k2EngineLow->DebubDrawWorld();

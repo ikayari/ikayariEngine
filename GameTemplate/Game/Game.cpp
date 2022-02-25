@@ -6,9 +6,11 @@
 bool Game::Start()
 {
 	m_spriteRender.Init("Assets/sprite/sample.dds", 1600, 900);
+	m_spriteRender2.Init("Assets/sprite/sample.dds", 1600, 900);
+	
 	m_player = NewGO<Player>(0, "player");
 	m_camera = NewGO<GameCamera>(0, "gamecamera");
-	//m_modelRender.Init("Assets/modelData/bg/bg.tkm");
+	m_modelRender.Init("Assets/modelData/bg/bg.tkm");
 
 
 	
@@ -21,25 +23,29 @@ void Game::Update()
 	{
 		Vector3 red{ 1.0f,1.0f,5.0f };
 		g_sceneLight.SetAmbientLight(red);
+		m_spriteRender.SetMulColor({ 0.5f, 0.5f, 0.5f, 0.5f });
 	}
 	if (g_pad[0]->IsTrigger(enButtonUp))
 	{
-		g_sceneLight.SetPointLightPosition({ 0.0f, 0.0f, 0.0f });
+		m_spriteRender.SetPosition({ 50.0f, 50.0f, 0.0f });
 	}
 	if (g_pad[0]->IsTrigger(enButtonDown))
 	{
-		g_sceneLight.SetPointLightPosition({ 0.0f, 25.0f, 0.0f });
+		m_spriteRender.SetPosition({ 100.0f, 100.0f, 0.0f });
 	}
 	if (g_pad[0]->IsPress(enButtonUp))
 	{
-		col += {0.01f,0.01f,0.01f};
+		col += {0.1f,0.1f,0.1f};
 	}
 	if (g_pad[0]->IsPress(enButtonDown))
 	{
-		col -= {0.01f, 0.01f, 0.01f};
+		col -= {0.1f, 0.1f, 0.1f};
 	}
 	g_sceneLight.SetDirectionColor(col);
 
+
+
+	m_spriteRender.Update();
 
 
 
@@ -47,8 +53,9 @@ void Game::Update()
 }
 void Game::Render(RenderContext& rc)
 {
-	//m_spriteRender.Draw(rc);
-	m_modelRender.Draw(rc);
+	if(g_pad[0]->IsPress(enButtonLeft))
+	m_spriteRender.Draw(rc);
+	//m_modelRender.Draw(rc);
 
 
 	

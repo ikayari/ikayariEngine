@@ -18,31 +18,12 @@ namespace nsK2EngineLow {
 		m_sprite.Init(initData);
 	}
 
-	/// <summary>
-/// 2D•`‰æƒpƒX‚©‚çŒÄ‚Î‚ê‚éˆ—B
-/// </summary>
-/// <param name="rc"></param>
+
 	void SpriteRender::Draw(RenderContext& rc)
 	{
-		m_sprite.Draw(rc);
+		g_renderingEngine.AddRenderObject(this);
+		
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

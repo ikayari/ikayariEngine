@@ -52,7 +52,9 @@ void Player::Update()
 	m_position=m_charaCon.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 	//m_modelRender.SetPosition(m_position);
 	m_modelRender.Update();
-	g_sceneLight.SetPointLightPosition(m_position);
+	Vector3 pos = m_position;
+	pos.y += 50.0f;
+	g_sceneLight.SetPointLightPosition(pos);
 
 	// step-4 コントローラー右スティックでスポットライトを回転させる
 		// Y軸周りの回転クォータニオンを計算する
