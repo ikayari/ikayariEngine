@@ -120,7 +120,8 @@ namespace nsK2EngineLow {
 		void SetX(const float x)
 		{
 			m_x = x;
-		}void SetY(const float y)
+		}
+		void SetY(const float y)
 		{
 			m_y = y;
 		}
@@ -220,6 +221,9 @@ namespace nsK2EngineLow {
 			Matrix mvp;
 			Vector4 mulColor;
 			Vector4 screenParam;
+			Vector2 imageParam;
+			int isRight = 0;
+			int isUp = 0;
 		};
 		LocalConstantBuffer m_constantBufferCPU;	//CPU側の定数バッファ。
 		ConstantBuffer		m_constantBufferGPU;	//GPU側の定数バッファ。
@@ -231,5 +235,6 @@ namespace nsK2EngineLow {
 		Shader				m_vs;					//頂点シェーダー。
 		Shader				m_ps;					//ピクセルシェーダー。
 		Vector4				m_mulColor = Vector4::White;	//乗算カラー。
+		Vector2				m_pivot;
 	};
 }

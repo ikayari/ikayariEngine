@@ -2,7 +2,7 @@
 
 namespace nsK2EngineLow
 {
-	class RenderingEngine :public Noncopyable
+	class RenderingEngine //:public Noncopyable
 	{
 	public:
         /// <summary>
