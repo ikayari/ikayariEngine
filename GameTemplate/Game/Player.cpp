@@ -44,13 +44,13 @@ void Player::Update()
 	forward.Normalize();
 	right.Normalize();
 	//左スティックの入力量と120.0fを乗算。
-	right *= stickL.x * 120.0f;
-	forward *= stickL.y * 120.0f;
+	right *= stickL.x * 1200.0f;
+	forward *= stickL.y * 1200.0f;
 
 	//移動速度に上記で計算したベクトルを加算する。
 	moveSpeed += right + forward;
 	m_position=m_charaCon.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
-	//m_modelRender.SetPosition(m_position);
+	m_modelRender.SetPosition(m_position);
 	m_modelRender.Update();
 	Vector3 pos = m_position;
 	pos.y += 50.0f;

@@ -17,4 +17,5 @@ private:
 	Vector3 m_toCameraPos;	//注視点から視点に向かうベクトル。
 	Quaternion m_quaternion;
 	Game* game;
+	SpringCamera m_springCamera;
 };

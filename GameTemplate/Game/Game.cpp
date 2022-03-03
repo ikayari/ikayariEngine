@@ -5,8 +5,8 @@
 
 bool Game::Start()
 {
-	m_spriteRender.Init("Assets/sprite/sample.dds", 1600, 900);
-	m_spriteRender2.Init("Assets/sprite/sample.dds", 1600, 900);
+	m_spriteRender.Init("Assets/sprite/sample.dds", 1920, 1080);
+	m_spriteRender2.Init("Assets/sprite/sample.dds",1920, 1080);
 	
 	m_player = NewGO<Player>(0, "player");
 	m_camera = NewGO<GameCamera>(0, "gamecamera");
@@ -55,7 +55,7 @@ void Game::Render(RenderContext& rc)
 {
 	if(g_pad[0]->IsPress(enButtonLeft))
 	m_spriteRender.Draw(rc);
-	//m_modelRender.Draw(rc);
+	m_modelRender.Draw(rc);
 
 
 	
