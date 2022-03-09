@@ -12,6 +12,12 @@ public:
 	{
 		return m_position;
 	}
+	void SetTRS(Vector3& pos, Quaternion& rot, Vector3& sca)
+	{
+		m_position = pos;
+		m_rotation = rot;
+		m_scale = sca;
+	}
 private:
 	// アニメーションクリップの番号を表す列挙型。
 	enum EnAnimationClip {

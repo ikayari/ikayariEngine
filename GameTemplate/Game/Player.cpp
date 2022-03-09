@@ -49,7 +49,7 @@ void Player::Update()
 
 	//移動速度に上記で計算したベクトルを加算する。
 	moveSpeed += right + forward;
-	m_position=m_charaCon.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+	//m_position=m_charaCon.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.Update();
 	Vector3 pos = m_position;

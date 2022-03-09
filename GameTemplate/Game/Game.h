@@ -1,5 +1,7 @@
 #pragma once
 
+#include <LevelRender.h>
+
 class Player;
 class GameCamera;
 class Game : public IGameObject
@@ -19,5 +21,7 @@ private:
 	SpriteRender m_spriteRender2;
 
 	Vector3 col = Vector3::Zero;
+
+	LevelRender m_levelRender;
 };
 

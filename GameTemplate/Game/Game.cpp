@@ -8,13 +8,33 @@ bool Game::Start()
 	m_spriteRender.Init("Assets/sprite/sample.dds", 1920, 1080);
 	m_spriteRender2.Init("Assets/sprite/sample.dds",1920, 1080);
 	
-	m_player = NewGO<Player>(0, "player");
+	
+	
+
+	
+	//レベルを構築する。
+	m_levelRender.Init("Assets/level3D/test.tkl", [&](LevelObjectData& objData) {
+		//名前一致していたら。
+		if (objData.EqualObjectName(L"background") == true) {
+
+
+			//return falseにすると、Level側で読み込まれます。
+			return false;
+		}
+		else if (objData.EqualObjectName(L"unityChan") == true) {
+
+			m_player= NewGO<Player>(0, "player");
+			m_player->SetTRS(objData.position, objData.rotation, objData.scale);
+			return true;
+		}
+		return false;
+		});
 	m_camera = NewGO<GameCamera>(0, "gamecamera");
-	m_modelRender.Init("Assets/modelData/bg/bg.tkm");
+	
 
 
 	
-
+	
 	return true;
 }
 void Game::Update()
@@ -55,7 +75,7 @@ void Game::Render(RenderContext& rc)
 {
 	if(g_pad[0]->IsPress(enButtonLeft))
 	m_spriteRender.Draw(rc);
-	m_modelRender.Draw(rc);
+	m_levelRender.Draw(rc);
 
 
 	
