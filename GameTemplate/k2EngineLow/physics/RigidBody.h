@@ -88,6 +88,7 @@ namespace nsK2EngineLow {
 			m_rigidBody->setLinearVelocity(btVel);
 			m_rigidBody->activate();
 		}
+
 		/// <summary>
 		/// Œ»İ‚Ì‘¬“x‚ğæ“¾B
 		/// </summary>
@@ -97,6 +98,17 @@ namespace nsK2EngineLow {
 			auto& btVel = m_rigidBody->getLinearVelocity();
 			Vector3 vel;
 			vel.Set(btVel.x(), btVel.y(), btVel.z());
+			return vel;
+		}
+		/// <summary>
+		/// Œ»İ‚ÌXZ•½–Ê‚Ì‘¬“x‚ğæ“¾
+		/// </summary>
+		/// <returns></returns>
+		Vector3 GetLinearXZVelocity() const
+		{
+			Vector3 vel;
+			vel = GetLinearVelocity();
+			vel.y = 0.0f;
 			return vel;
 		}
 		/// <summary>
