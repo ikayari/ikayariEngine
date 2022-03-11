@@ -28,8 +28,8 @@ MYIMAGE_MiN_SIZE = 0.1
 
 #mainwindow関係
 #キャンバスの大きさ
-CANVAS_WIDTH = 1920
-CANVAS_HEIGHT = 1080
+CANVAS_WIDTH = 1600
+CANVAS_HEIGHT = 900
 #枠のサイズを画像より少し大きくする
 ADD_FRAME_SIZE = 2.0
 #キャンバスを少し大きくする

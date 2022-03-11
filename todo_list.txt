@@ -3,7 +3,7 @@ MapChipって何？？？？？？？？？？？？？？？？？？？？？�
 
 
 
-Level3DRenderとLevel2DRenderをつくる。
+Level2DRenderをつくる。
 
 あとついでにfontRenderも。
 

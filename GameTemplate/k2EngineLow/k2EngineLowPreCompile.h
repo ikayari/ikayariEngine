@@ -83,6 +83,7 @@ using namespace Microsoft::WRL;
 
 #include "graphics/GaussianBlur.h"
 #include "Bloom.h"
+#include "ShadowMapRender.h"
 #include "RenderingEngine.h"
 #include "SpringCamera.h"
 

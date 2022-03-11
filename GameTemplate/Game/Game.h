@@ -1,6 +1,7 @@
 #pragma once
 
 #include <LevelRender.h>
+#include <Level2DRender.h>
 
 class Player;
 class GameCamera;
@@ -22,6 +23,7 @@ private:
 
 	Vector3 col = Vector3::Zero;
 
+	Level2DRender m_level2DRender;
 	LevelRender m_levelRender;
 };
 

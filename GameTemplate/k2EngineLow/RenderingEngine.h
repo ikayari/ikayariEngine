@@ -17,11 +17,14 @@ namespace nsK2EngineLow
 
 		void SpriteRenderDraw(RenderContext& rc);
 
+		void AddShadowRenderModel(Model& md)
+		{
+			m_shadowMapRender.AddShadowModel(md);
+		}
 		
-
 	private:
 		std::vector<SpriteRender*> m_Spriterenders;
-	
+		ShadowMapRender m_shadowMapRender;
 		
 	};
 

@@ -49,12 +49,11 @@ void Player::Update()
 
 	//移動速度に上記で計算したベクトルを加算する。
 	moveSpeed += right + forward;
-	//m_position=m_charaCon.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
+	m_position=m_charaCon.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.Update();
 	Vector3 pos = m_position;
 	pos.y += 50.0f;
-	g_sceneLight.SetPointLightPosition(pos);
 
 	// step-4 コントローラー右スティックでスポットライトを回転させる
 		// Y軸周りの回転クォータニオンを計算する

@@ -128,9 +128,6 @@
     <ClCompile Include="level2D\Level2D.cpp">
       <Filter>level2D</Filter>
     </ClCompile>
-    <ClCompile Include="level2D\MapChip2D.cpp">
-      <Filter>level2D</Filter>
-    </ClCompile>
     <ClCompile Include="level3D\TklFile.cpp">
       <Filter>level3D</Filter>
     </ClCompile>
@@ -239,6 +236,12 @@
     <ClCompile Include="ShadowMapRender.cpp" />
     <ClCompile Include="MapChipRender.cpp" />
     <ClCompile Include="LevelRender.cpp" />
+    <ClCompile Include="level2D\MapChip2D.cpp">
+      <Filter>level2D</Filter>
+    </ClCompile>
+    <ClCompile Include="MapChip2DRender.cpp">
+      <Filter>level2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="k2EngineLowPreCompile.h" />
@@ -527,6 +530,9 @@
     </ClInclude>
     <ClInclude Include="MapChipRender.h" />
     <ClInclude Include="LevelRender.h" />
+    <ClInclude Include="MapChip2DRender.h">
+      <Filter>level2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graphics">
