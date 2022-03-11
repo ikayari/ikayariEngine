@@ -5,7 +5,7 @@
 
 bool Game::Start()
 {
-	m_spriteRender.Init("Assets/sprite/sample.dds", 1600, 900);
+	m_spriteRender.Init("Assets/sprite/flash.dds", 1600, 900);
 	
 	
 	
@@ -19,7 +19,7 @@ bool Game::Start()
 
 
 			//return falseÇ…Ç∑ÇÈÇ∆ÅALevelë§Ç≈ì«Ç›çûÇ‹ÇÍÇ‹Ç∑ÅB
-			return false;
+			return true;
 		}
 		else if (objData.EqualObjectName(L"unityChan") == true) {
 
@@ -66,10 +66,11 @@ bool Game::Start()
 		});
 	m_camera = NewGO<GameCamera>(0, "gamecamera");
 	
+	m_aho.SetText(L"Ç”ÇßÇÒÇÎÇƒÇÒÇæÅ[");
 
-
+	box.Create({ 100.0f,100.0f,100.0f });
 	
-	
+	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 	return true;
 }
 void Game::Update()
@@ -109,11 +110,7 @@ void Game::Update()
 }
 void Game::Render(RenderContext& rc)
 {
-	if (g_pad[0]->IsPress(enButtonLeft))
-	{
-		m_spriteRender.Draw(rc);
-		
-	}
+	m_aho.Draw(rc);
 	if (g_pad[0]->IsPress(enButtonA))
 	{
 		m_spriteRender2.Draw(rc);
@@ -121,5 +118,10 @@ void Game::Render(RenderContext& rc)
 	m_levelRender.Draw(rc);
 	
 	m_level2DRender.Draw(rc);
+	if (g_pad[0]->IsPress(enButtonLeft))
+	{
+		m_spriteRender.Draw(rc);
+
+	}
 	
 }

@@ -25,5 +25,8 @@ private:
 
 	Level2DRender m_level2DRender;
 	LevelRender m_levelRender;
+
+	BoxCollider box;
+	FontRender m_aho;
 };
 

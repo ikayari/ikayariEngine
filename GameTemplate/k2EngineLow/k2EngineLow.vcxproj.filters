@@ -131,9 +131,6 @@
     <ClCompile Include="level3D\TklFile.cpp">
       <Filter>level3D</Filter>
     </ClCompile>
-    <ClCompile Include="level3D\Level.cpp">
-      <Filter>level3D</Filter>
-    </ClCompile>
     <ClCompile Include="level3D\MapChip.cpp">
       <Filter>level3D</Filter>
     </ClCompile>
@@ -234,14 +231,22 @@
       <Filter>level2D</Filter>
     </ClCompile>
     <ClCompile Include="ShadowMapRender.cpp" />
-    <ClCompile Include="MapChipRender.cpp" />
-    <ClCompile Include="LevelRender.cpp" />
     <ClCompile Include="level2D\MapChip2D.cpp">
       <Filter>level2D</Filter>
     </ClCompile>
     <ClCompile Include="MapChip2DRender.cpp">
       <Filter>level2D</Filter>
     </ClCompile>
+    <ClCompile Include="level3D\Level.cpp">
+      <Filter>level3D</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelRender.cpp">
+      <Filter>level3D</Filter>
+    </ClCompile>
+    <ClCompile Include="MapChipRender.cpp">
+      <Filter>level3D</Filter>
+    </ClCompile>
+    <ClCompile Include="FontRender.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="k2EngineLowPreCompile.h" />
@@ -528,11 +533,16 @@
     <ClInclude Include="HID\GamePad.h">
       <Filter>HID</Filter>
     </ClInclude>
-    <ClInclude Include="MapChipRender.h" />
-    <ClInclude Include="LevelRender.h" />
     <ClInclude Include="MapChip2DRender.h">
       <Filter>level2D</Filter>
     </ClInclude>
+    <ClInclude Include="MapChipRender.h">
+      <Filter>level3D</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelRender.h">
+      <Filter>level3D</Filter>
+    </ClInclude>
+    <ClInclude Include="FontRender.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graphics">
