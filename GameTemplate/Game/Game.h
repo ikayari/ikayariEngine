@@ -2,7 +2,7 @@
 
 #include <LevelRender.h>
 #include <Level2DRender.h>
-
+#include "physics/PhysicsGhostObject.h"
 class Player;
 class GameCamera;
 class Game : public IGameObject
@@ -28,5 +28,13 @@ private:
 
 	BoxCollider box;
 	FontRender m_aho;
+	RigidBody aho;
+	BoxCollider bakasugi;
+
+	PhysicsGhostObject m_pgo;
+
+	PhysicsStaticObject m_pso;
+
+	
 };
 

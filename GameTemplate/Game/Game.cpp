@@ -8,23 +8,54 @@ bool Game::Start()
 	m_spriteRender.Init("Assets/sprite/flash.dds", 1600, 900);
 	
 	
-	
-	
 
 	
+	
 	//レベルを構築する。
-	m_levelRender.Init("Assets/level3D/test.tkl", [&](LevelObjectData& objData) {
+	m_levelRender.Init("Assets/level3D/test3.tkl", [&](LevelObjectData& objData) {
 		//名前一致していたら。
-		if (objData.EqualObjectName(L"background") == true) {
+		if (objData.EqualObjectName(L"ground") == true) {
 
 
 			//return falseにすると、Level側で読み込まれます。
-			return true;
+			return false;
 		}
 		else if (objData.EqualObjectName(L"unityChan") == true) {
 
-			m_player= NewGO<Player>(0, "player");
-			m_player->SetTRS(objData.position, objData.rotation, objData.scale);
+			m_player = NewGO<Player>(0, "player");
+			Vector3 scale = Vector3::One * 8.0f;
+			m_player->SetTRS(objData.position, objData.rotation,scale);
+			
+			/*bakasugi.Create({1000.0f,1000.0f,1000.0f});
+			RigidBodyInitData rbInfo;
+			rbInfo.collider = &bakasugi;
+			rbInfo.mass = 0.0f;
+			rbInfo.restitution = 0.0f;
+			aho.Init(rbInfo);
+
+			auto& btTrans = aho.GetBody()->getWorldTransform();
+			btVector3 btPos;
+			btPos = btVector3(objData.position.x, objData.position.y, objData.position.z);
+			btTrans.setOrigin(btPos);*/
+
+			
+
+			
+			return true;
+		}
+		else if (objData.ForwardMatchName(L"box") == true) {
+			/*bakasugi.Create(objData.scale);
+			RigidBodyInitData rbInfo;
+			rbInfo.collider = &bakasugi;
+			rbInfo.mass = 0.0f;
+			rbInfo.restitution = 0.0f;
+			aho.Init(rbInfo);
+
+			auto& btTrans = aho.GetBody()->getWorldTransform();
+			btVector3 btPos;
+			btPos = btVector3(objData.position.x, objData.position.y+(objData.scale.y/2), objData.position.z);
+			btTrans.setOrigin(btPos);*/
+			m_levelRender.InitBoxCollider(objData);
 			return true;
 		}
 		return false;
@@ -75,11 +106,15 @@ bool Game::Start()
 }
 void Game::Update()
 {
+	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 	if (g_pad[0]->IsTrigger(enButtonStart))
 	{
 		Vector3 red{ 1.0f,1.0f,5.0f };
-		g_sceneLight.SetAmbientLight(red);
+		//g_sceneLight.SetAmbientLight(red);
 		m_spriteRender.SetMulColor({ 0.5f, 0.5f, 0.5f, 0.5f });
+	
+		m_levelRender.ReleaseBoxCollider();
+		
 	}
 	if (g_pad[0]->IsTrigger(enButtonUp))
 	{
@@ -97,6 +132,7 @@ void Game::Update()
 	{
 		col -= {0.1f, 0.1f, 0.1f};
 	}
+
 	g_sceneLight.SetDirectionColor(col);
 
 
@@ -106,11 +142,11 @@ void Game::Update()
 	m_level2DRender.Update();
 
 
-
+	m_pgo.CreateBox(m_player->GetPosition(), Quaternion::Identity,Vector3::One);
 }
 void Game::Render(RenderContext& rc)
 {
-	m_aho.Draw(rc);
+	//m_aho.Draw(rc);
 	if (g_pad[0]->IsPress(enButtonA))
 	{
 		m_spriteRender2.Draw(rc);
