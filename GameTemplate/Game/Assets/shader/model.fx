@@ -47,9 +47,11 @@ cbuffer LightCb : register(b1)
     float3 ambientLight; //環境光。
     
     float3 eyePos; //視点の位置。
-	
+    
+    float4x4 mLVP;
 	
 };
+
 
 ////////////////////////////////////////////////
 // 構造体
@@ -74,6 +76,7 @@ struct SPSIn{
     float3 worldPos : TEXCOORD1;
     
     float3 normalInView : TEXCOORD2;     //カメラ空間の法線
+    float4 posInLVP : TEXCOORD3; // ライトビュースクリーン空間でのピクセルの座標
 };
 ///////////////////////////////////////////
 // 関数宣言
@@ -91,6 +94,7 @@ float3 CalcRimLight(SPSIn psIn,float3 lightdirection,float3 lightcolor);
 ////////////////////////////////////////////////
 Texture2D<float4> g_albedo : register(t0);				//アルベドマップ
 StructuredBuffer<float4x4> g_boneMatrix : register(t3);	//ボーン行列。
+Texture2D<float4> g_shadowMap : register(t10); // シャドウマップ
 sampler g_sampler : register(s0);	//サンプラステート。
 
 ////////////////////////////////////////////////
@@ -138,6 +142,8 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
     
     //カメラ空間の法線を求める。
     psIn.normalInView = normalize(mul(mView, psIn.normal));
+    
+    psIn.posInLVP = normalize(mul(mLVP, psIn.worldPos));
 
 	return psIn;
 }
@@ -367,7 +373,22 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
     //スポットライトによるライティングを計算する。
     float3 spotLig = CalcLigFromSpotLight(psIn);
     
+   
+    // step-6 ライトビュースクリーン空間からUV空間に座標変換
+    // 【注目】ライトビュースクリーン空間からUV座標空間に変換している
+    float2 shadowMapUV = psIn.posInLVP.xy / psIn.posInLVP.w;
+    shadowMapUV *= float2(0.5f, -0.5f);
+    shadowMapUV += 0.5f;
 
+    // step-7 UV座標を使ってシャドウマップから影情報をサンプリング
+    float3 shadowMap = 1.0f;
+    if (shadowMapUV.x > 0.0f && shadowMapUV.x < 1.0f
+        && shadowMapUV.y > 0.0f && shadowMapUV.y < 1.0f)
+    {
+        shadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV);
+    }
+   
+    float4 color = g_albedo.Sample(g_sampler, psIn.uv);
 	//ライティングの結果をすべて加算する。
     float3 lig =  directionLig
                 + pointLig
@@ -379,6 +400,7 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 	
 		
 	albedoColor.xyz *= lig;
+    albedoColor.xyz *= shadowMap;
 	
 	return albedoColor;
 }

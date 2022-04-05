@@ -20,11 +20,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_camera3D->SetTarget({ 0.0f, 50.0f, 0.0f });
 	g_sceneLight.SeteyePosition(g_camera3D->GetPosition());
 
+	g_postEffect.Init();
+	g_bloom.Init();
+	g_renderingEngine.Init();
+	
 	NewGO<Game>(0, "game");
 
 
-	g_postEffect.Init();
-	g_bloom.Init();
+	
+	
 	//step-2 ポストエフェクト実行用のスプライトを初期化する。
 	//スプライトの初期化オブジェクトを作成する。
 	SpriteInitData spriteInitData;
@@ -55,14 +59,18 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		// ゲームオブジェクトマネージャーの描画処理を呼び出す。
 		g_k2EngineLow->ExecuteRender();
 
+		g_renderingEngine.Execute(renderContext);
+
+		EffectEngine::GetInstance()->Draw();
 		
+		/*
 		//TODO オフスクリーンレンダリングの処理
 		g_postEffect.Render(renderContext);
 
 		//TODO spriteの描画。
 		g_renderingEngine.SpriteRenderDraw(renderContext);
 
-		g_renderingEngine.FontRenderDraw(renderContext);
+		g_renderingEngine.FontRenderDraw(renderContext);*/
 
 		// デバッグ描画処理を実行する。
 		g_k2EngineLow->DebubDrawWorld();

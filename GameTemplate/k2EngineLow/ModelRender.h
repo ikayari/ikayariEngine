@@ -1,7 +1,7 @@
 ﻿#pragma once
 namespace nsK2EngineLow {
 	
-	class ModelRender
+	class ModelRender : public IRenderer
 	{
 
 
@@ -119,7 +119,17 @@ namespace nsK2EngineLow {
 		void InitShadowModel(
 			const char* tkmFilePath,
 			EnModelUpAxis modelUpAxis);
-
+		/// <summary>
+		/// シャドウマップへの描画パスから呼ばれる処理。
+		/// </summary>
+		/// <param name="rc">レンダリングコンテキスト</param>
+		/// <param name="ligNo">ライト番号</param>
+		/// <param name="lvpMatrix">ライトビュープロジェクション行列</param>
+		void OnRenderShadowMap(
+			RenderContext& rc,
+			const Matrix& lvpMatrix
+		)override;
+		
 		Model					m_model;								//モデル。
 		Model					m_shadowmodel;							//シャドウモデル。
 		Animation				m_animation;							//アニメーション。
@@ -131,6 +141,7 @@ namespace nsK2EngineLow {
 		Quaternion				m_rotation = Quaternion::Identity;		//回転。
 		Vector3					m_scale = Vector3::One;					//拡大率。
 		EnModelUpAxis			m_enFbxUpAxis = enModelUpAxisZ;			// FBXの上方向。
+		bool					m_isShadowCaster = true;
 
 		
 

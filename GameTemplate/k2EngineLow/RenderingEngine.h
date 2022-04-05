@@ -2,38 +2,49 @@
 
 namespace nsK2EngineLow
 {
-	class RenderingEngine //:public Noncopyable
+	class RenderingEngine :public Noncopyable
 	{
-	public:
-        /// <summary>
-		/// 描画オブジェクトを追加。
-		/// </summary>
-		/// <param name="renderObject">スプライトレンダー</param>
-        void AddSpriteRenderObject(SpriteRender* renderObject)
-        {
-            m_Spriterenders.push_back(renderObject);
-        }
-
-		void AddFontRenderObject(FontRender* renderObject)
-		{
-			m_Fontrenders.push_back(renderObject);
-		}
-
-
-		void SpriteRenderDraw(RenderContext& rc);
-
-		void FontRenderDraw(RenderContext& rc);
-
-		void AddShadowRenderModel(Model& md)
-		{
-			m_shadowMapRender.AddShadowModel(md);
-		}
-		
 	private:
-		std::vector<SpriteRender*>	m_Spriterenders;
-		std::vector<FontRender*>	m_Fontrenders;
-		ShadowMapRender m_shadowMapRender;
+		struct ModelRenderCB
+		{
+			Light m_light;          // ライト
+			Matrix mlvp; // ライトビュープロジェクション行列。
+		};
+	public:
+
+		void Init();
+		void AddRenderObject(IRenderer* renderobj)
+		{
+			m_renderobject.push_back(renderobj);
+		}
+
+		void Render2DDraw(RenderContext & rc);
+
 		
+
+		void ShadowMapDraw(RenderContext& rc);
+
+		void Execute(RenderContext& rc);
+
+		Texture& GetShadowMap()
+		{
+			return m_shadowMapRender.GetShadowMap();
+		}
+		Camera& GetLightCamera()
+		{
+			return m_shadowMapRender.GetLightCamera();
+		}
+		ModelRenderCB& GetModelRenderCB()
+		{
+			return m_modelRenderCB;
+		}
+	private:
+		std::vector<IRenderer*> m_renderobject;
+		ShadowMapRender m_shadowMapRender;
+		PostEffect* m_postEffect = &g_postEffect;
+		ModelRenderCB m_modelRenderCB;
+		RenderTarget m_mainRenderTarget;
+	
 	};
 
 	extern RenderingEngine g_renderingEngine;

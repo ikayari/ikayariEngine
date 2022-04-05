@@ -5,6 +5,9 @@
 
 bool Game::Start()
 {
+	//エフェクトを読み込む。
+	EffectEngine::GetInstance()->ResistEffect(0, u"Assets/effect/laser.efk");
+	EffectEngine::GetInstance()->ResistEffect(1, u"Assets/effect/laser2.efk");
 	m_spriteRender.Init("Assets/sprite/flash.dds", 1600, 900);
 	
 	
@@ -44,17 +47,6 @@ bool Game::Start()
 			return true;
 		}
 		else if (objData.ForwardMatchName(L"box") == true) {
-			/*bakasugi.Create(objData.scale);
-			RigidBodyInitData rbInfo;
-			rbInfo.collider = &bakasugi;
-			rbInfo.mass = 0.0f;
-			rbInfo.restitution = 0.0f;
-			aho.Init(rbInfo);
-
-			auto& btTrans = aho.GetBody()->getWorldTransform();
-			btVector3 btPos;
-			btPos = btVector3(objData.position.x, objData.position.y+(objData.scale.y/2), objData.position.z);
-			btTrans.setOrigin(btPos);*/
 			m_levelRender.InitBoxCollider(objData);
 			return true;
 		}
@@ -106,7 +98,7 @@ bool Game::Start()
 }
 void Game::Update()
 {
-	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+
 	if (g_pad[0]->IsTrigger(enButtonStart))
 	{
 		Vector3 red{ 1.0f,1.0f,5.0f };
@@ -134,6 +126,23 @@ void Game::Update()
 	}
 
 	g_sceneLight.SetDirectionColor(col);
+	//Aボタンが押されたら。
+	if (g_pad[0]->IsTrigger(enButtonA))
+	{
+		EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+		effectEmitter->Init(0);
+		effectEmitter->SetScale({ 1.0f,1.0f,1.0f });
+		effectEmitter->Play();
+	}
+
+	//Bボタンが押されたら。
+	if (g_pad[0]->IsTrigger(enButtonB))
+	{
+		EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
+		effectEmitter->Init(1);
+		effectEmitter->SetScale({ 5.0f,5.0f,5.0f });
+		effectEmitter->Play();
+	}
 
 
 
@@ -149,7 +158,7 @@ void Game::Render(RenderContext& rc)
 	//m_aho.Draw(rc);
 	if (g_pad[0]->IsPress(enButtonA))
 	{
-		m_spriteRender2.Draw(rc);
+		//m_spriteRender2.Draw(rc);
 	}
 	m_levelRender.Draw(rc);
 	

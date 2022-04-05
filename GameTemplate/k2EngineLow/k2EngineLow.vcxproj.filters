@@ -220,7 +220,6 @@
       <Filter>graphics</Filter>
     </ClCompile>
     <ClCompile Include="ModelRender.cpp" />
-    <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="SceneLight.cpp" />
     <ClCompile Include="SpriteRender.cpp" />
     <ClCompile Include="PostEffect.cpp" />
@@ -519,7 +518,6 @@
     <ClInclude Include="graphics\FrameBuffer.h">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="ModelRender.h" />
     <ClInclude Include="SceneLight.h" />
     <ClInclude Include="SpriteRender.h" />
@@ -545,6 +543,7 @@
     </ClInclude>
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="PhysicsStaticBox.h" />
+    <ClInclude Include="IRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graphics">

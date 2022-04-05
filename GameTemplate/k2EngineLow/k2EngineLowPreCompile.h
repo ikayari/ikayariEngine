@@ -48,7 +48,6 @@ using namespace Microsoft::WRL;
 #include "math/Math.h"
 #include "math/Vector.h"
 #include "math/Matrix.h"
-
 #include "k2EngineLow.h"
 #include "graphics/VertexBuffer.h"
 #include "graphics/IndexBuffer.h"
@@ -74,6 +73,7 @@ using namespace Microsoft::WRL;
 
 #include "graphics/Sprite.h"
 #include "graphics/Model.h"
+#include "IRenderer.h"
 #include "ModelRender.h"
 #include "SceneLight.h"
 #include "SpriteRender.h"

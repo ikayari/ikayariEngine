@@ -21,6 +21,10 @@ namespace nsK2EngineLow {
 		{
 			Color = col;
 		}
+		const Vector3& GetDirection()const
+		{
+			return Direction;
+		}
 	};
 
 	struct PointLight
@@ -100,6 +104,7 @@ namespace nsK2EngineLow {
 		Vector3 ambientLight;
 		float pad;
 		Vector3 eyePos;
+		float pad2;
 	};
 
 		class SceneLight
@@ -148,6 +153,10 @@ namespace nsK2EngineLow {
 			const Vector3 GetPointLightPosition()const 
 			{
 				return m_light.pointLight.GetPosition();
+			}
+			const Vector3& GetDirectionLightDirection()const
+			{
+				return m_light.directionLight.GetDirection();
 			}
 			/// <summary>
 			/// スポットライトに回転を加算する。

@@ -30,6 +30,7 @@ namespace nsK2EngineLow {
 	{
 		m_model.Draw(rc);
 
+		g_renderingEngine.AddRenderObject(this);
 	}
 	void ModelRender::Init(const char* filePath,
 		AnimationClip* animationClips,
@@ -43,8 +44,8 @@ namespace nsK2EngineLow {
 
 		//ディレクションライトの情報を定数バッファとしてディスクリプタヒープに登録するために
 		//モデルの初期化情報として渡す。
-		initData.m_expandConstantBuffer = &g_sceneLight.GetLight();
-		initData.m_expandConstantBufferSize = sizeof(g_sceneLight.GetLight());
+		initData.m_expandConstantBuffer = &g_renderingEngine.GetModelRenderCB();
+		initData.m_expandConstantBufferSize = sizeof(g_renderingEngine.GetModelRenderCB());
 		if (animationClips == nullptr)
 		{
 			//ノンスキンメッシュ用の頂点シェーダーのエントリーポイントを指定する。
@@ -59,13 +60,18 @@ namespace nsK2EngineLow {
 			initData.m_skeleton = &m_skeleton;
 			InitAnimation(animationClips, numAnimationClips, enModelUpAxis);
 		}
+		//シャドウマップを拡張SRVに設定する。
+		initData.m_expandShaderResoruceView[0] = &g_renderingEngine.GetShadowMap();
+
+		
 		initData.m_tkmFilePath = filePath;
 		
-
+		
 
 		m_enFbxUpAxis = enModelUpAxis;
 		initData.m_modelUpAxis = m_enFbxUpAxis;
 		m_model.Init(initData);
+		InitShadowModel(filePath, m_enFbxUpAxis);
 
 	}
 	void ModelRender::InitSkeleton(const char* filePath)
@@ -102,8 +108,20 @@ namespace nsK2EngineLow {
 			//スケルトンを指定する。
 			ShadowModelInitData.m_skeleton = &m_skeleton;
 		}
-		m_shadowmodel.Init(ShadowModelInitData);
+		
+		m_model.Init(ShadowModelInitData);
+		
 
-		g_renderingEngine.AddShadowRenderModel(m_shadowmodel);
+	}
+	void ModelRender::OnRenderShadowMap(RenderContext& rc, const Matrix& lvpMatrix)
+	{/*
+		//if (m_isShadowCaster)
+		//{
+			m_shadowmodel.Draw(
+				rc,
+				g_matIdentity,
+				lvpMatrix);
+
+		//}*/
 	}
 }

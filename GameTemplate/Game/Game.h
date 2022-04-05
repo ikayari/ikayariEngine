@@ -3,6 +3,9 @@
 #include <LevelRender.h>
 #include <Level2DRender.h>
 #include "physics/PhysicsGhostObject.h"
+
+#include "graphics/effect/EffectEmitter.h"
+
 class Player;
 class GameCamera;
 class Game : public IGameObject
