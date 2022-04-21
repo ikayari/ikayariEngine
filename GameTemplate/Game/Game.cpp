@@ -9,15 +9,26 @@ bool Game::Start()
 	EffectEngine::GetInstance()->ResistEffect(0, u"Assets/effect/laser.efk");
 	EffectEngine::GetInstance()->ResistEffect(1, u"Assets/effect/laser2.efk");
 	m_spriteRender.Init("Assets/sprite/flash.dds", 1600, 900);
-	
-	
 
+
+	bgRender.Init("Assets/modelData/ground.tkm",false);
+	bgRender.SetCasterShadow(false);
+
+	teapotModel.Init("Assets/modelData/teapot.tkm",true);
+	teapotModel.SetTRS(
+		{ 0, 50, 0 },
+		g_quatIdentity,
+		Vector3::One
+	);
+	teapotModel.Update();
+	m_pso.CreateFromModel(bgRender.GetModel(), bgRender.GetModel().GetWorldMatrix());
 	
+	g_k2EngineLow->SetFrameRateMode(nsK2EngineLow::K2EngineLow::EnFrameRateMode::enFrameRateMode_Variable, 30.0f);
 	
 	//レベルを構築する。
-	m_levelRender.Init("Assets/level3D/test3.tkl", [&](LevelObjectData& objData) {
+	m_levelRender.Init("Assets/level3D/test4.tkl", [&](LevelObjectData& objData) {
 		//名前一致していたら。
-		if (objData.EqualObjectName(L"ground") == true) {
+		if (objData.EqualObjectName(L"smoker") == true) {
 
 
 			//return falseにすると、Level側で読み込まれます。
@@ -106,6 +117,7 @@ void Game::Update()
 		m_spriteRender.SetMulColor({ 0.5f, 0.5f, 0.5f, 0.5f });
 	
 		m_levelRender.ReleaseBoxCollider();
+		g_k2EngineLow->SetFrameRateMode(nsK2EngineLow::K2EngineLow::EnFrameRateMode::enFrameRateMode_Variable, 60.0f);
 		
 	}
 	if (g_pad[0]->IsTrigger(enButtonUp))
@@ -151,7 +163,7 @@ void Game::Update()
 	m_level2DRender.Update();
 
 
-	m_pgo.CreateBox(m_player->GetPosition(), Quaternion::Identity,Vector3::One);
+	//m_pgo.CreateBox(m_player->GetPosition(), Quaternion::Identity,Vector3::One);
 }
 void Game::Render(RenderContext& rc)
 {
@@ -168,5 +180,6 @@ void Game::Render(RenderContext& rc)
 		m_spriteRender.Draw(rc);
 
 	}
-	
+	//teapotModel.Draw(rc);
+	//bgRender.Draw(rc);
 }

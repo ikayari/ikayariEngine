@@ -1,16 +1,20 @@
 #pragma once
+#include "SceneLight.h"
+#include "ShadowMapRender.h"
+#include "PostEffect.h"
 
 namespace nsK2EngineLow
 {
 	class RenderingEngine :public Noncopyable
 	{
-	private:
+	public:
 		struct ModelRenderCB
 		{
+		public:
 			Light m_light;          // ライト
 			Matrix mlvp; // ライトビュープロジェクション行列。
+
 		};
-	public:
 
 		void Init();
 		void AddRenderObject(IRenderer* renderobj)
@@ -18,9 +22,9 @@ namespace nsK2EngineLow
 			m_renderobject.push_back(renderobj);
 		}
 
-		void Render2DDraw(RenderContext & rc);
+		void Render2DDraw(RenderContext& rc);
 
-		
+
 
 		void ShadowMapDraw(RenderContext& rc);
 
@@ -44,7 +48,7 @@ namespace nsK2EngineLow
 		PostEffect* m_postEffect = &g_postEffect;
 		ModelRenderCB m_modelRenderCB;
 		RenderTarget m_mainRenderTarget;
-	
+
 	};
 
 	extern RenderingEngine g_renderingEngine;

@@ -5,9 +5,9 @@ namespace nsK2EngineLow {
 	//ディレクションライト。
 	struct DirectionLight {
 	private:
-		Vector3 Direction;//ライトの⽅向。
-		//HLSL側の定数バッファのfloat3型の変数は16の倍数のアドレスに配置されるため、C++側にはパディングを埋めておく。
+		Vector3 Direction;//ライトの⽅向。wは影を落とすかの処理。
 		float pad;
+		//HLSL側の定数バッファのfloat3型の変数は16の倍数のアドレスに配置されるため、C++側にはパディングを埋めておく。
 		Vector3 Color;//ライトのカラー。
 		float pad1;
 
@@ -154,7 +154,7 @@ namespace nsK2EngineLow {
 			{
 				return m_light.pointLight.GetPosition();
 			}
-			const Vector3& GetDirectionLightDirection()const
+			const Vector4& GetDirectionLightDirection()const
 			{
 				return m_light.directionLight.GetDirection();
 			}

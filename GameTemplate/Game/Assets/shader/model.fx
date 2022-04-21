@@ -49,6 +49,8 @@ cbuffer LightCb : register(b1)
     float3 eyePos; //視点の位置。
     
     float4x4 mLVP;
+    
+  
 	
 };
 
@@ -76,6 +78,7 @@ struct SPSIn{
     float3 worldPos : TEXCOORD1;
     
     float3 normalInView : TEXCOORD2;     //カメラ空間の法線
+    
     float4 posInLVP : TEXCOORD3; // ライトビュースクリーン空間でのピクセルの座標
 };
 ///////////////////////////////////////////
@@ -143,7 +146,7 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
     //カメラ空間の法線を求める。
     psIn.normalInView = normalize(mul(mView, psIn.normal));
     
-    psIn.posInLVP = normalize(mul(mLVP, psIn.worldPos));
+    psIn.posInLVP = mul(mLVP, float4(psIn.worldPos, 1.0f));
 
 	return psIn;
 }
@@ -379,13 +382,23 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
     float2 shadowMapUV = psIn.posInLVP.xy / psIn.posInLVP.w;
     shadowMapUV *= float2(0.5f, -0.5f);
     shadowMapUV += 0.5f;
-
+    //ライトビュースクリーン空間でのZ値を計算する
+    float zInLVP = psIn.posInLVP.z / psIn.posInLVP.w;
+    
     // step-7 UV座標を使ってシャドウマップから影情報をサンプリング
     float3 shadowMap = 1.0f;
+    
     if (shadowMapUV.x > 0.0f && shadowMapUV.x < 1.0f
         && shadowMapUV.y > 0.0f && shadowMapUV.y < 1.0f)
     {
-        shadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV);
+        // step-3 シャドウマップに描き込まれているZ値と比較する
+        // 計算したUV座標を使って、シャドウマップから深度値をサンプリング
+        float zInShadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV).r;
+        if (zInLVP > zInShadowMap)
+        {
+            // 遮蔽されている
+            shadowMap.xyz *= 0.5f;
+        }
     }
    
     float4 color = g_albedo.Sample(g_sampler, psIn.uv);
@@ -400,7 +413,10 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 	
 		
 	albedoColor.xyz *= lig;
+    
     albedoColor.xyz *= shadowMap;
+   
+ 
 	
 	return albedoColor;
 }

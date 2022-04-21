@@ -38,6 +38,8 @@ private:
 
 	PhysicsStaticObject m_pso;
 
+	ModelRender bgRender;
+	ModelRender teapotModel;
 	
 };
 

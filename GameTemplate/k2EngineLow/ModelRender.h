@@ -1,6 +1,6 @@
 ﻿#pragma once
+#include "RenderingEngine.h"
 namespace nsK2EngineLow {
-	
 	class ModelRender : public IRenderer
 	{
 
@@ -20,7 +20,7 @@ namespace nsK2EngineLow {
 		/// <param name="numAnimationClips">アニメーションの数</param>
 		/// <param name="enModelUpAxis">モデルの上方向</param>
 		void Init(const char* filePath,
-			//bool offScreenRendaring = false,
+			bool shadowRecieve,
 			AnimationClip* animationClips=nullptr,
 			int numAnimationClips=0,
 			EnModelUpAxis enModelUpAxis = enModelUpAxisZ);
@@ -29,6 +29,10 @@ namespace nsK2EngineLow {
 		/// </summary>
 		void Draw(RenderContext& rc);
 
+		void SetCasterShadow(const bool castershadow)
+		{
+			m_isShadowCaster = castershadow;
+		}
 		/// <summary>
 		/// 座標をセット。
 		/// </summary>
@@ -142,6 +146,8 @@ namespace nsK2EngineLow {
 		Vector3					m_scale = Vector3::One;					//拡大率。
 		EnModelUpAxis			m_enFbxUpAxis = enModelUpAxisZ;			// FBXの上方向。
 		bool					m_isShadowCaster = true;
+
+		RenderingEngine::ModelRenderCB* m_modelCB;
 
 		
 
