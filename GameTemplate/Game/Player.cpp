@@ -9,7 +9,7 @@ bool Player::Start()
 	m_animationClipArray[enAnimClip_Run].Load("Assets/animData/walk.tka");
 	m_animationClipArray[enAnimClip_Run].SetLoopFlag(true);
 	//tkmファイルのファイルパスを指定する。
-	m_modelrender.Init("Assets/modelData/unityChan.tkm",true,m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
+	m_modelrender.Init("Assets/modelData/unityChan.tkm",false,m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
 	m_charaCon.Init(25.0f, 75.0f, m_position);
 	return true;
 }

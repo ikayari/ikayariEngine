@@ -361,10 +361,11 @@ float3 CalcRimLight(SPSIn psIn, float3 direction,float3 color)
     return limcolor;
 
 }
+
 /// <summary>
 /// ピクセルシェーダーのエントリー関数。
 /// </summary>
-float4 PSMain( SPSIn psIn ) : SV_Target0
+float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
 {
 
     //ディレクションライトによるライティングを計算する
@@ -413,10 +414,20 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 	
 		
 	albedoColor.xyz *= lig;
-    
-    albedoColor.xyz *= shadowMap;
-   
+    if (shadowreceive== true)
+    {
+        albedoColor.xyz *= shadowMap;
+    }
  
 	
 	return albedoColor;
+}
+// モデル用のピクセルシェーダーのエントリーポイント
+float4 PSMain(SPSIn psIn) : SV_Target0
+{
+    return  PSMainCore(psIn,false);
+}
+float4 PSMainShadowReciever(SPSIn psIn) : SV_Target0
+{
+    return PSMainCore(psIn,true);
 }

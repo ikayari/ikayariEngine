@@ -18,13 +18,14 @@ namespace nsK2EngineLow {
 	void ModelRender::Update()
 	{
 		
-		//アニメーションを進める。
-		m_animation.Progress(g_gameTime->GetFrameDeltaTime());
+	
 		if (m_animationClip != nullptr)
 		{
 			m_skeleton.Update(m_model.GetWorldMatrix());
 			
 		}
+		//アニメーションを進める。
+		m_animation.Progress(g_gameTime->GetFrameDeltaTime());
 		m_model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 		m_shadowmodel.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 	}
@@ -61,6 +62,10 @@ namespace nsK2EngineLow {
 			//スケルトンを指定する。
 			initData.m_skeleton = &m_skeleton;
 			InitAnimation(animationClips, numAnimationClips, enModelUpAxis);
+		}
+
+		if (shadowRecieve) {
+			initData.m_psEntryPointFunc = "PSMainShadowReciever";
 		}
 		//シャドウマップを拡張SRVに設定する。
 		initData.m_expandShaderResoruceView[0] = &g_renderingEngine.GetShadowMap();

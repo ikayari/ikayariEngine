@@ -5,7 +5,7 @@
 #include "physics/PhysicsGhostObject.h"
 
 #include "graphics/effect/EffectEmitter.h"
-
+#include "SerialNumberSpriteRender.h"
 class Player;
 class GameCamera;
 class Game : public IGameObject
@@ -41,5 +41,6 @@ private:
 	ModelRender bgRender;
 	ModelRender teapotModel;
 	
+	SerialNumberSpriteRender SpriteRenders;
 };
 

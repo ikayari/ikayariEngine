@@ -6,6 +6,7 @@ namespace nsK2EngineLow {
 	class SpriteRender : public IRenderer
 	{
 	public:
+		SpriteRender();
 		/// <summary>
 		/// ‰Šú‰»B
 		/// </summary>
