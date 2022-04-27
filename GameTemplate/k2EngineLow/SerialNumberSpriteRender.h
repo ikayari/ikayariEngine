@@ -3,7 +3,15 @@ namespace nsK2EngineLow {
 	class SerialNumberSpriteRender
 	{
 	public:
-		void Init(const char* filePath, const float w, const float h, const char* n, AlphaBlendMode alphaBlendMode);
+		/// <summary>
+		/// 連番アニメーションの読み込み
+		/// </summary>
+		/// <param name="filePath">ファイルパス。_より前のやつ</param>
+		/// <param name="w">横の長さ</param>
+		/// <param name="h">縦の長さ</param>
+		/// <param name="n">連番アニメーションの数。</param>
+		/// <param name="alphaBlendMode">ブレンディングモード。</param>
+		void Init(const char* filePath, const float w, const float h, const int n, AlphaBlendMode alphaBlendMode);
 
 		void Update();
 
@@ -106,6 +114,7 @@ namespace nsK2EngineLow {
 		Quaternion		m_rotation = Quaternion::Identity;		//回転。
 		Vector3			m_scale = Vector3::One;					//大きさ。
 		Vector2			m_pivot = Sprite::DEFAULT_PIVOT;		//ピボット。
+		int m_number;
 	};
 
 };

@@ -7,11 +7,12 @@ namespace nsK2EngineLow
 	void RenderingEngine::Render2DDraw(RenderContext& rc)
 	{
 		for (auto& renderObj : m_renderobject) {
-			renderObj->OnRenderSprite2D(rc);
-		}
-		for (auto& renderObj : m_renderobject) {
 			renderObj->OnRenderFont2D(rc);
 		}
+		for (auto& renderObj : m_renderobject) {
+			renderObj->OnRenderSprite2D(rc);
+		}
+
 
 	}
 
@@ -33,19 +34,7 @@ namespace nsK2EngineLow
 
 
 		m_postEffect->Render(rc);
-		// シャドウマップを表示するためのスプライトを初期化する
-		SpriteInitData spriteInitData;
-		spriteInitData.m_textures[0] = &g_renderingEngine.GetShadowMap();
-		spriteInitData.m_fxFilePath = "Assets/shader/sprite.fx";
-		spriteInitData.m_width = 256;
-		spriteInitData.m_height = 256;
-
-		Sprite sprite;
-		sprite.Init(spriteInitData);
-		sprite.Update({ FRAME_BUFFER_W / -2.0f, FRAME_BUFFER_H / 2.0f,  0.0f }, g_quatIdentity, g_vec3One, { 0.0f, 1.0f });
-		sprite.Draw(rc);
-
-
+		
 		Render2DDraw(rc);
 
 		m_renderobject.clear();

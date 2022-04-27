@@ -25,7 +25,7 @@ namespace nsK2EngineLow {
 			
 		}
 		//アニメーションを進める。
-		m_animation.Progress(g_gameTime->GetFrameDeltaTime());
+		m_animation.Progress(g_gameTime->GetFrameDeltaTime()* m_animationSpeed);
 		m_model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 		m_shadowmodel.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 	}

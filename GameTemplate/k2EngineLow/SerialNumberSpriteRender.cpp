@@ -1,21 +1,20 @@
 #include "k2EngineLowPreCompile.h"
 #include "SerialNumberSpriteRender.h"
+#include <stdio.h>
+#include <sstream>
+#include <string>
 
-namespace nsK2EngineLow {
-	void SerialNumberSpriteRender::Init(const char* filePath, const float w, const float h, const char* n, AlphaBlendMode alphaBlendMode)
+namespace  nsK2EngineLow {
+	void SerialNumberSpriteRender::Init(const char* filePath, const float w, const float h, const int n,AlphaBlendMode alphaBlendMode)
 	{
-		for (int a = 0; a >int(n)-'0'; a++)
+		for (int a = 0; a > n; a++)
 		{
-			char number[] = { '0' + a };
-			std::string filenumber(number);
+			std::ostringstream oss;
 			//スプライトレンダーの初期化。
-
-			std::string serialFilePath = filePath;
-			int pos = (int)serialFilePath.find("_");
-			serialFilePath.replace(pos, int(a/10), filenumber);
+			oss << filePath << '_' << a;
 
 			auto sprite = std::make_unique<SpriteRender>();
-			sprite->Init(filePath, w, h, alphaBlendMode);
+			sprite->Init(oss.str().c_str() ,w, h, alphaBlendMode);
 			m_spriteRenders.push_back(std::move(sprite));
 		}
 	}

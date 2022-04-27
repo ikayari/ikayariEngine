@@ -103,6 +103,14 @@ namespace nsK2EngineLow {
 		{
 			return m_model;
 		}
+		/// <summary>
+		/// アニメーション再生の速度を設定する。
+		/// </summary>
+		/// <param name="animationSpeed">数値の分だけ倍にする。</param>
+		void SetAnimationSpeed(const float animationSpeed)
+		{
+			m_animationSpeed = animationSpeed;
+		}
 
 
 	private:
@@ -140,7 +148,7 @@ namespace nsK2EngineLow {
 		AnimationClip*			m_animationClip = nullptr;				//アニメーションクリップ。
 		int						m_numAnimationClips = 0;				//アニメーションクリップの数。
 		Skeleton				m_skeleton;								//骨。
-
+		float					m_animationSpeed = 1.0f;
 		Vector3					m_position = Vector3::Zero;				//座標。	
 		Quaternion				m_rotation = Quaternion::Identity;		//回転。
 		Vector3					m_scale = Vector3::One;					//拡大率。

@@ -20,10 +20,10 @@ bool GameCamera::Start()
 	m_Player = FindGO<Player>("player");
 
 	//ばねカメラの初期化。
-	m_springCamera.Init(
+	/*m_springCamera.Init(
 		*g_camera3D,		//ばねカメラの処理を行うカメラを指定する。
 		1000.0f			//カメラの移動速度の最大値。
-	);
+	);*/
 	//カメラのニアクリップとファークリップを設定する。
 	g_camera3D->SetNear(1.0f);
 	g_camera3D->SetFar(100000.0f);
@@ -71,10 +71,10 @@ void GameCamera::Update()
 	//視点を計算する。
 	Vector3 pos = target + m_toCameraPos;
 	//バネカメラに注視点と視点を設定する。
-	m_springCamera.SetPosition(pos);
-	m_springCamera.SetTarget(target);
+	g_camera3D->SetPosition(pos);
+	g_camera3D->SetTarget(target);
 
 	//カメラの更新。
-	m_springCamera.Update();
+	g_camera3D->Update();
 
 }
