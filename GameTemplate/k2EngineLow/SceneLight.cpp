@@ -8,8 +8,7 @@ namespace nsK2EngineLow {
 	SceneLight::SceneLight()
 	{
 		Vector3 dir = { 1.0f,-1.0f,-1.0f };
-		dir = { -1.0f,1.0f,1.0f };
-		m_light.directionLight.SetDirection({dir});
+		m_light.directionLight.SetDirection(dir);
 
 		m_light.directionLight.SetColor({ 1.0f,1.0f,1.0f });
 

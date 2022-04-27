@@ -11,10 +11,11 @@ namespace nsK2EngineLow {
 		/// シャドウマップへの描画パスから呼ばれる処理。
 		/// </summary>
 		/// <param name="rc">レンダリングコンテキスト</param>
-		/// <param name="camera">ライトカメラ</param>
+		/// <param name="ligNo">ライト番号</param>
+		/// <param name="lvpMatrix">ライトビュープロジェクション行列</param>
 		virtual void OnRenderShadowMap(
 			RenderContext& rc,
-			Camera& camera
+			const Matrix& lvpMatrix
 		)
 		{
 

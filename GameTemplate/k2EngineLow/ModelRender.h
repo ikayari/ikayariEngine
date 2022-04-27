@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include "RenderingEngine.h"
 namespace nsK2EngineLow {
-	
 	class ModelRender : public IRenderer
 	{
 
@@ -21,16 +20,19 @@ namespace nsK2EngineLow {
 		/// <param name="numAnimationClips">アニメーションの数</param>
 		/// <param name="enModelUpAxis">モデルの上方向</param>
 		void Init(const char* filePath,
-			float recieveshadow=0.0f,
+			bool shadowRecieve,
 			AnimationClip* animationClips=nullptr,
 			int numAnimationClips=0,
-			EnModelUpAxis enModelUpAxis = enModelUpAxisZ,
-			bool iscasterShadow = false);
+			EnModelUpAxis enModelUpAxis = enModelUpAxisZ);
 		/// <summary>
 		/// 描画処理。
 		/// </summary>
 		void Draw(RenderContext& rc);
 
+		void SetCasterShadow(const bool castershadow)
+		{
+			m_isShadowCaster = castershadow;
+		}
 		/// <summary>
 		/// 座標をセット。
 		/// </summary>
@@ -75,15 +77,11 @@ namespace nsK2EngineLow {
 			SetRotation(rotation);
 			SetScale(scale);
 		}
-		void SetCasterShadow(const bool n)
-		{
-			m_isShadowCaster = n;
-		}
 		/// <summary>
 		/// 座標を取得。
 		/// </summary>
 		/// <returns></returns>
-		const Vector3& GetPosition() const
+		Vector3 GetPosition() const
 		{
 			return m_position;
 		}
@@ -133,13 +131,8 @@ namespace nsK2EngineLow {
 		/// <param name="lvpMatrix">ライトビュープロジェクション行列</param>
 		void OnRenderShadowMap(
 			RenderContext& rc,
-			Camera& camera
+			const Matrix& lvpMatrix
 		)override;
-
-		bool IsShadowCaster() const override
-		{
-			return m_isShadowCaster;
-		}
 		
 		Model					m_model;								//モデル。
 		Model					m_shadowmodel;							//シャドウモデル。

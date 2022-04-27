@@ -2,6 +2,11 @@
 #include "SpriteRender.h"
 
 namespace nsK2EngineLow {
+	SpriteRender::SpriteRender()
+	{
+
+	}
+
 	void SpriteRender::Init(const char* filePath, const float w, const float h, AlphaBlendMode alphaBlendMode)
 	{
 		SpriteInitData initData;

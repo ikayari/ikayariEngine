@@ -124,6 +124,10 @@ namespace nsK2EngineLow {
 			//マップチップレンダーを初期化。
 			mapChipRender.second->Init();
 		}
+		/*for (auto& boxObjectData : m_boxobject)
+		{
+			CreateBox(boxObjectData);
+		}*/
 	}
 
 	void LevelRender::MatrixTklToLevel()
