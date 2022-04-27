@@ -1,17 +1,21 @@
 #pragma once
-
+#include "PostEffect.h"
+#include "SceneLight.h"
+#include "ShadowMapRender.h"
 namespace nsK2EngineLow
 {
 	class RenderingEngine :public Noncopyable
 	{
-	private:
+	public:
 		struct ModelRenderCB
 		{
+		public:
+
 			Light m_light;          // ライト
 			Matrix mlvp; // ライトビュープロジェクション行列。
+			float shadow;
 		};
-	public:
-
+		
 		void Init();
 		void AddRenderObject(IRenderer* renderobj)
 		{

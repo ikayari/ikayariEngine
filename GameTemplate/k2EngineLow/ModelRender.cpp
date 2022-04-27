@@ -25,6 +25,7 @@ namespace nsK2EngineLow {
 			m_skeleton.Update(m_model.GetWorldMatrix());
 		}
 		m_model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
+		m_shadowmodel.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 	}
 	void ModelRender::Draw(RenderContext& rc)
 	{
@@ -33,9 +34,11 @@ namespace nsK2EngineLow {
 		g_renderingEngine.AddRenderObject(this);
 	}
 	void ModelRender::Init(const char* filePath,
+		float recieveshadow,
 		AnimationClip* animationClips,
 		int numAnimationClips,
-		EnModelUpAxis enModelUpAxis)
+		EnModelUpAxis enModelUpAxis,
+		bool iscasterShadow)
 	{
 		ModelInitData initData;
 		//シェーダーファイルのファイルパス。
@@ -43,7 +46,9 @@ namespace nsK2EngineLow {
 
 
 		//ディレクションライトの情報を定数バッファとしてディスクリプタヒープに登録するために
-		//モデルの初期化情報として渡す。
+		//モデルの初期化情報として渡す。:
+		m_modelCB = &g_renderingEngine.GetModelRenderCB();
+		m_modelCB->shadow = recieveshadow;
 		initData.m_expandConstantBuffer = &g_renderingEngine.GetModelRenderCB();
 		initData.m_expandConstantBufferSize = sizeof(g_renderingEngine.GetModelRenderCB());
 		if (animationClips == nullptr)
@@ -63,15 +68,14 @@ namespace nsK2EngineLow {
 		//シャドウマップを拡張SRVに設定する。
 		initData.m_expandShaderResoruceView[0] = &g_renderingEngine.GetShadowMap();
 
-		
 		initData.m_tkmFilePath = filePath;
-		
 		
 
 		m_enFbxUpAxis = enModelUpAxis;
 		initData.m_modelUpAxis = m_enFbxUpAxis;
 		m_model.Init(initData);
 		InitShadowModel(filePath, m_enFbxUpAxis);
+		m_isShadowCaster = iscasterShadow;
 
 	}
 	void ModelRender::InitSkeleton(const char* filePath)
@@ -104,24 +108,25 @@ namespace nsK2EngineLow {
 		// シャドウマップ描画用のシェーダーを指定する
 		ShadowModelInitData.m_fxFilePath = "Assets/shader/DrawShadowMap.fx";
 		ShadowModelInitData.m_tkmFilePath = tkmFilePath;
+		//ShadowModelInitData.m_modelUpAxis = modelUpAxis;
 		if (m_animationClip != nullptr) {
 			//スケルトンを指定する。
 			ShadowModelInitData.m_skeleton = &m_skeleton;
 		}
 		
-		m_model.Init(ShadowModelInitData);
-		
+		m_shadowmodel.Init(ShadowModelInitData);
+
 
 	}
-	void ModelRender::OnRenderShadowMap(RenderContext& rc, const Matrix& lvpMatrix)
-	{/*
-		//if (m_isShadowCaster)
-		//{
+	void ModelRender::OnRenderShadowMap(RenderContext& rc, Camera& camera)
+	{
+		if (m_isShadowCaster)
+		{
 			m_shadowmodel.Draw(
 				rc,
-				g_matIdentity,
-				lvpMatrix);
+				camera.GetViewMatrix(),
+				camera.GetProjectionMatrix());
 
-		//}*/
+		}
 	}
 }

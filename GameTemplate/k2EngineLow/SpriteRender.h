@@ -143,8 +143,14 @@ namespace nsK2EngineLow {
 				m_scale,
 				m_pivot);
 		}
-
-		
+		void SetNumber(const int n)
+		{
+			m_number = n;
+		}
+		const int GetNumber()const
+		{
+			return m_number;
+		}
 		void OnRenderSprite2D(RenderContext& rc) override
 		{
 			if (m_isInit == false)
@@ -153,7 +159,7 @@ namespace nsK2EngineLow {
 			}
 			m_sprite.Draw(rc);
 		}
-
+		
 	private:
 		Sprite			m_sprite;								//スプライト。
 		Vector3			m_position = Vector3::Zero;				//座標。
@@ -161,5 +167,7 @@ namespace nsK2EngineLow {
 		Vector3			m_scale = Vector3::One;					//大きさ。
 		Vector2			m_pivot = Sprite::DEFAULT_PIVOT;		//ピボット。
 		bool m_isInit = false;
+
+		int m_number;
 	};
 }

@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "RenderingEngine.h"
 namespace nsK2EngineLow {
 	
 	class ModelRender : public IRenderer
@@ -20,10 +21,11 @@ namespace nsK2EngineLow {
 		/// <param name="numAnimationClips">アニメーションの数</param>
 		/// <param name="enModelUpAxis">モデルの上方向</param>
 		void Init(const char* filePath,
-			//bool offScreenRendaring = false,
+			float recieveshadow=0.0f,
 			AnimationClip* animationClips=nullptr,
 			int numAnimationClips=0,
-			EnModelUpAxis enModelUpAxis = enModelUpAxisZ);
+			EnModelUpAxis enModelUpAxis = enModelUpAxisZ,
+			bool iscasterShadow = false);
 		/// <summary>
 		/// 描画処理。
 		/// </summary>
@@ -73,11 +75,15 @@ namespace nsK2EngineLow {
 			SetRotation(rotation);
 			SetScale(scale);
 		}
+		void SetCasterShadow(const bool n)
+		{
+			m_isShadowCaster = n;
+		}
 		/// <summary>
 		/// 座標を取得。
 		/// </summary>
 		/// <returns></returns>
-		Vector3 GetPosition() const
+		const Vector3& GetPosition() const
 		{
 			return m_position;
 		}
@@ -127,8 +133,13 @@ namespace nsK2EngineLow {
 		/// <param name="lvpMatrix">ライトビュープロジェクション行列</param>
 		void OnRenderShadowMap(
 			RenderContext& rc,
-			const Matrix& lvpMatrix
+			Camera& camera
 		)override;
+
+		bool IsShadowCaster() const override
+		{
+			return m_isShadowCaster;
+		}
 		
 		Model					m_model;								//モデル。
 		Model					m_shadowmodel;							//シャドウモデル。
@@ -142,6 +153,8 @@ namespace nsK2EngineLow {
 		Vector3					m_scale = Vector3::One;					//拡大率。
 		EnModelUpAxis			m_enFbxUpAxis = enModelUpAxisZ;			// FBXの上方向。
 		bool					m_isShadowCaster = true;
+
+		RenderingEngine::ModelRenderCB* m_modelCB;
 
 		
 

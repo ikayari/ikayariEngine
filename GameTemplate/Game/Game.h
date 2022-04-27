@@ -38,6 +38,9 @@ private:
 
 	PhysicsStaticObject m_pso;
 
-	
+	Sprite sprite;
+
+	SoundSource* m_bgm = nullptr;
+	ModelRender bgRender;
 };
 

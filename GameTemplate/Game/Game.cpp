@@ -11,13 +11,16 @@ bool Game::Start()
 	m_spriteRender.Init("Assets/sprite/flash.dds", 1600, 900);
 	
 	
-
-	
+	/*bgRender.Init("Assets/modelData/teapot.tkm");
+	bgRender.SetScale(Vector3::One * 5.0f);
+	bgRender.SetPosition({ 0.0f,80.0f,0.0f });
+	bgRender.Update();
+	bgRender.SetCasterShadow(true);*/
 	
 	//レベルを構築する。
-	m_levelRender.Init("Assets/level3D/test3.tkl", [&](LevelObjectData& objData) {
+	m_levelRender.Init("Assets/level3D/test5.tkl", [&](LevelObjectData& objData) {
 		//名前一致していたら。
-		if (objData.EqualObjectName(L"ground") == true) {
+		if (objData.ForwardMatchName(L"ground") == true) {
 
 
 			//return falseにすると、Level側で読み込まれます。
@@ -94,10 +97,13 @@ bool Game::Start()
 	box.Create({ 100.0f,100.0f,100.0f });
 	
 	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+
+	
 	return true;
 }
 void Game::Update()
 {
+	
 
 	if (g_pad[0]->IsTrigger(enButtonStart))
 	{
@@ -151,10 +157,11 @@ void Game::Update()
 	m_level2DRender.Update();
 
 
-	m_pgo.CreateBox(m_player->GetPosition(), Quaternion::Identity,Vector3::One);
+	//m_pgo.CreateBox(m_player->GetPosition(), Quaternion::Identity,Vector3::One);
 }
 void Game::Render(RenderContext& rc)
 {
+	
 	//m_aho.Draw(rc);
 	if (g_pad[0]->IsPress(enButtonA))
 	{
@@ -168,5 +175,6 @@ void Game::Render(RenderContext& rc)
 		m_spriteRender.Draw(rc);
 
 	}
+	bgRender.Draw(rc);
 	
 }
