@@ -9,26 +9,18 @@ bool Game::Start()
 	EffectEngine::GetInstance()->ResistEffect(0, u"Assets/effect/laser.efk");
 	EffectEngine::GetInstance()->ResistEffect(1, u"Assets/effect/laser2.efk");
 	m_spriteRender.Init("Assets/sprite/flash.dds", 1600, 900);
-
-
-	bgRender.Init("Assets/modelData/ground.tkm",false);
-	bgRender.SetCasterShadow(false);
-
-	teapotModel.Init("Assets/modelData/teapot.tkm",true);
-	teapotModel.SetTRS(
-		{ 0, 50, 0 },
-		g_quatIdentity,
-		Vector3::One
-	);
-	teapotModel.Update();
-	m_pso.CreateFromModel(bgRender.GetModel(), bgRender.GetModel().GetWorldMatrix());
 	
-	g_k2EngineLow->SetFrameRateMode(nsK2EngineLow::K2EngineLow::EnFrameRateMode::enFrameRateMode_Variable, 30.0f);
+	
+	/*bgRender.Init("Assets/modelData/teapot.tkm");
+	bgRender.SetScale(Vector3::One * 5.0f);
+	bgRender.SetPosition({ 0.0f,80.0f,0.0f });
+	bgRender.Update();
+	bgRender.SetCasterShadow(true);*/
 	
 	//レベルを構築する。
-	m_levelRender.Init("Assets/level3D/test4.tkl", [&](LevelObjectData& objData) {
+	m_levelRender.Init("Assets/level3D/test5.tkl", [&](LevelObjectData& objData) {
 		//名前一致していたら。
-		if (objData.EqualObjectName(L"smoker") == true) {
+		if (objData.ForwardMatchName(L"ground") == true) {
 
 
 			//return falseにすると、Level側で読み込まれます。
@@ -105,10 +97,13 @@ bool Game::Start()
 	box.Create({ 100.0f,100.0f,100.0f });
 	
 	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+
+	
 	return true;
 }
 void Game::Update()
 {
+	
 
 	if (g_pad[0]->IsTrigger(enButtonStart))
 	{
@@ -117,7 +112,6 @@ void Game::Update()
 		m_spriteRender.SetMulColor({ 0.5f, 0.5f, 0.5f, 0.5f });
 	
 		m_levelRender.ReleaseBoxCollider();
-		g_k2EngineLow->SetFrameRateMode(nsK2EngineLow::K2EngineLow::EnFrameRateMode::enFrameRateMode_Variable, 60.0f);
 		
 	}
 	if (g_pad[0]->IsTrigger(enButtonUp))
@@ -167,6 +161,7 @@ void Game::Update()
 }
 void Game::Render(RenderContext& rc)
 {
+	
 	//m_aho.Draw(rc);
 	if (g_pad[0]->IsPress(enButtonA))
 	{
@@ -180,6 +175,6 @@ void Game::Render(RenderContext& rc)
 		m_spriteRender.Draw(rc);
 
 	}
-	//teapotModel.Draw(rc);
-	//bgRender.Draw(rc);
+	bgRender.Draw(rc);
+	
 }

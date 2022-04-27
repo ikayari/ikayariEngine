@@ -146,7 +146,7 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
     //カメラ空間の法線を求める。
     psIn.normalInView = normalize(mul(mView, psIn.normal));
     
-    psIn.posInLVP = mul(mLVP, float4(psIn.worldPos, 1.0f));
+    psIn.posInLVP = mul(mLVP, psIn.worldPos);
 
 	return psIn;
 }
@@ -361,11 +361,10 @@ float3 CalcRimLight(SPSIn psIn, float3 direction,float3 color)
     return limcolor;
 
 }
-
 /// <summary>
 /// ピクセルシェーダーのエントリー関数。
 /// </summary>
-float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
+float4 PSMain( SPSIn psIn ) : SV_Target0
 {
 
     //ディレクションライトによるライティングを計算する
@@ -383,15 +382,16 @@ float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
     float2 shadowMapUV = psIn.posInLVP.xy / psIn.posInLVP.w;
     shadowMapUV *= float2(0.5f, -0.5f);
     shadowMapUV += 0.5f;
-    //ライトビュースクリーン空間でのZ値を計算する
+
+    //ライトビュースクリーン空間でのZ値を計算する。
     float zInLVP = psIn.posInLVP.z / psIn.posInLVP.w;
     
     // step-7 UV座標を使ってシャドウマップから影情報をサンプリング
     float3 shadowMap = 1.0f;
-    
     if (shadowMapUV.x > 0.0f && shadowMapUV.x < 1.0f
         && shadowMapUV.y > 0.0f && shadowMapUV.y < 1.0f)
     {
+        
         // step-3 シャドウマップに描き込まれているZ値と比較する
         // 計算したUV座標を使って、シャドウマップから深度値をサンプリング
         float zInShadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV).r;
@@ -414,20 +414,10 @@ float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
 	
 		
 	albedoColor.xyz *= lig;
-    if (shadowreceive== true)
-    {
-        albedoColor.xyz *= shadowMap;
-    }
- 
+    
+    albedoColor.xyz *= shadowMap;
+   
+   
 	
 	return albedoColor;
-}
-// モデル用のピクセルシェーダーのエントリーポイント
-float4 PSMain(SPSIn psIn) : SV_Target0
-{
-    return  PSMainCore(psIn,false);
-}
-float4 PSMainShadowReciever(SPSIn psIn) : SV_Target0
-{
-    return PSMainCore(psIn,true);
 }

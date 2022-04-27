@@ -9,7 +9,7 @@ bool Player::Start()
 	m_animationClipArray[enAnimClip_Run].Load("Assets/animData/walk.tka");
 	m_animationClipArray[enAnimClip_Run].SetLoopFlag(true);
 	//tkmファイルのファイルパスを指定する。
-	m_modelrender.Init("Assets/modelData/unityChan.tkm",false,m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
+	m_modelRender.Init("Assets/modelData/unityChan.tkm",1.0f, m_animationClipArray, enAnimClip_Num, enModelUpAxisY,true);
 	m_charaCon.Init(25.0f, 75.0f, m_position);
 	return true;
 }
@@ -19,16 +19,16 @@ void Player::Update()
 	
 	if (g_pad[0]->IsTrigger(enButtonB))
 	{
-		m_modelrender.PlayAnimation(enAnimClip_Run, 0.1f);
+		m_modelRender.PlayAnimation(enAnimClip_Run, 0.1f);
 	}
 	if (g_pad[0]->IsTrigger(enButtonX))
 	{
-		m_modelrender.PlayAnimation(enAnimClip_Idle, 0.1f);
+		m_modelRender.PlayAnimation(enAnimClip_Idle, 0.1f);
 	}
 	if (g_pad[0]->IsPress(enButtonY))
 	{
 		m_rotation.AddRotationDegY(5.0f);
-		m_modelrender.SetRotation(m_rotation);
+		m_modelRender.SetRotation(m_rotation);
 	}
 	Vector3 stickL;
 	stickL.x = g_pad[0]->GetLStickXF();
@@ -50,8 +50,8 @@ void Player::Update()
 	//移動速度に上記で計算したベクトルを加算する。
 	moveSpeed += right + forward;
 	m_position=m_charaCon.Execute(moveSpeed, g_gameTime->GetFrameDeltaTime());
-	m_modelrender.SetPosition(m_position);
-	m_modelrender.Update();
+	m_modelRender.SetPosition(m_position);
+	m_modelRender.Update();
 	Vector3 pos = m_position;
 	pos.y += 50.0f;
 
@@ -76,5 +76,5 @@ void Player::Update()
 
 void Player::Render(RenderContext& rc)
 {
-	m_modelrender.Draw(rc);
+	m_modelRender.Draw(rc);
 }
