@@ -66,6 +66,11 @@ namespace nsK2EngineLow {
 
 		if (shadowRecieve) {
 			initData.m_psEntryPointFunc = "PSMainShadowReciever";
+			m_isShadowCaster = false;
+		}
+		else
+		{
+			m_isShadowCaster = true;
 		}
 		//シャドウマップを拡張SRVに設定する。
 		initData.m_expandShaderResoruceView[0] = &g_renderingEngine.GetShadowMap();

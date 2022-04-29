@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "Player.h"
 #include"GameCamera.h"
-
+#include "SerialNumberSpriteRender.h"
 bool Game::Start()
 {
 	//エフェクトを読み込む。
@@ -16,6 +16,9 @@ bool Game::Start()
 	bgRender.SetPosition({ 0.0f,80.0f,0.0f });
 	bgRender.Update();
 	bgRender.SetCasterShadow(true);*/
+	m_unity.Init("Assets/Sprites/UnityChan", 1600, 900, 57);
+
+
 	
 	//レベルを構築する。
 	m_levelRender.Init("Assets/level3D/test5.tkl", [&](LevelObjectData& objData) {
@@ -139,6 +142,8 @@ void Game::Update()
 		effectEmitter->Init(0);
 		effectEmitter->SetScale({ 1.0f,1.0f,1.0f });
 		effectEmitter->Play();
+
+		
 	}
 
 	//Bボタンが押されたら。
@@ -148,9 +153,20 @@ void Game::Update()
 		effectEmitter->Init(1);
 		effectEmitter->SetScale({ 5.0f,5.0f,5.0f });
 		effectEmitter->Play();
+
+		Vector3 pos{ 500.0f,500.0f,0.0f };
+		m_unity.SetPosition(pos);
+		m_unity.Update();
 	}
 
-
+	if (m_unity.GetSpriteRendersSize() == m_unity.GetDrawNumber())
+	{
+		m_unity.SetDrawNumber(m_unity.GetDrawNumber() - m_unity.GetSpriteRendersSize());
+	}
+	else
+	{
+		m_unity.SetDrawNumber(m_unity.GetDrawNumber() +0.25f);
+	}
 
 	m_spriteRender.Update();
 	//レベル2D側で読み込んだ画像の更新。
@@ -167,7 +183,7 @@ void Game::Render(RenderContext& rc)
 	{
 		//m_spriteRender2.Draw(rc);
 	}
-	m_levelRender.Draw(rc);
+	//m_levelRender.Draw(rc);
 	
 	m_level2DRender.Draw(rc);
 	if (g_pad[0]->IsPress(enButtonLeft))
@@ -175,6 +191,7 @@ void Game::Render(RenderContext& rc)
 		m_spriteRender.Draw(rc);
 
 	}
-	bgRender.Draw(rc);
+	//bgRender.Draw(rc);
+	m_unity.Draw(rc);
 	
 }

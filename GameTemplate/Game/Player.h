@@ -12,6 +12,10 @@ public:
 	{
 		return m_position;
 	}
+	Quaternion& GetRotation()
+	{
+		return m_rotation;
+	}
 	void SetTRS(Vector3& pos, Quaternion& rot, Vector3& sca)
 	{
 		m_position = pos;

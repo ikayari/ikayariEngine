@@ -5,6 +5,7 @@
 #include "physics/PhysicsGhostObject.h"
 
 #include "graphics/effect/EffectEmitter.h"
+#include <SerialNumberSpriteRender.h>
 
 class Player;
 class GameCamera;
@@ -21,6 +22,7 @@ private:
 
 	ModelRender m_modelRender;
 	SpriteRender m_spriteRender;
+	SerialNumberSpriteRender m_unity;
 
 	SpriteRender m_spriteRender2;
 
@@ -42,5 +44,15 @@ private:
 
 	SoundSource* m_bgm = nullptr;
 	ModelRender bgRender;
+
+	ModelRender m_doorRender;
+	// アニメーションクリップの番号を表す列挙型。
+	enum EnAnimationClip {
+		enAnimClip_Open,	// 0 : 待機アニメーション、
+		enAnimClip_Num,		// 1 :アニメーションクリップの数。
+	};
+	AnimationClip m_animationClipArray[enAnimClip_Num];	// アニメーションクリップ
+
+
 };
 
