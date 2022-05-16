@@ -31,6 +31,26 @@ namespace  nsK2EngineLow {
 		{
 			m_spriteRenders[i]->Update();
 		}
+		if (GetState() != enStop)
+		{
+			if (GetSpriteRendersSize() == GetDrawNumber())
+			{
+				if (!m_isLoop)
+				{
+					Stop();
+					return;
+				}
+				else
+				{
+					SetDrawNumber(GetDrawNumber() - GetSpriteRendersSize());
+				}
+				
+			}
+			else
+			{
+				SetDrawNumber(GetDrawNumber() + (m_drawratio * m_drawspeed));
+			}
+		}
 	}
 	void SerialNumberSpriteRender::Draw(RenderContext& rc)
 	{

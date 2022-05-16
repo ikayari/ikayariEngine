@@ -11,15 +11,21 @@ bool Game::Start()
 	m_spriteRender.Init("Assets/sprite/flash.dds", 1600, 900);
 	
 	
-	/*bgRender.Init("Assets/modelData/teapot.tkm");
+	bgRender.Init("Assets/modelData/teapot.tkm",true,true);
 	bgRender.SetScale(Vector3::One * 5.0f);
-	bgRender.SetPosition({ 0.0f,80.0f,0.0f });
+	bgRender.SetPosition({ 0.0f,100.0f,500.0f });
 	bgRender.Update();
-	bgRender.SetCasterShadow(true);*/
+	bgRender2.Init("Assets/modelData/teapot.tkm", true, true);
+	bgRender2.SetScale(Vector3::One * 5.0f);
+	bgRender2.SetPosition({ 500.0f,100.0f,0.0f });
+	bgRender2.Update();
 	m_unity.Init("Assets/Sprites/UnityChan", 1600, 900, 57);
+	m_animationClipArray[enAnimClip_Idle].Load("Assets/animData/Door_Idle.tka");
+	m_animationClipArray[enAnimClip_Idle].SetLoopFlag(false);
+	m_animationClipArray[enAnimClip_Open].Load("Assets/animData/Door.tka");
+	m_animationClipArray[enAnimClip_Open].SetLoopFlag(false);
+	//m_doorRender.Init("Assets/modelData/Door.tkm", true, m_animationClipArray, enAnimClip_Num);
 
-
-	
 	//レベルを構築する。
 	m_levelRender.Init("Assets/level3D/test5.tkl", [&](LevelObjectData& objData) {
 		//名前一致していたら。
@@ -27,7 +33,7 @@ bool Game::Start()
 
 
 			//return falseにすると、Level側で読み込まれます。
-			return false;
+			return true;
 		}
 		else if (objData.EqualObjectName(L"unityChan") == true) {
 
@@ -115,7 +121,7 @@ void Game::Update()
 		m_spriteRender.SetMulColor({ 0.5f, 0.5f, 0.5f, 0.5f });
 	
 		m_levelRender.ReleaseBoxCollider();
-		
+		m_unity.DrawNumberReset();
 	}
 	if (g_pad[0]->IsTrigger(enButtonUp))
 	{
@@ -124,6 +130,7 @@ void Game::Update()
 	if (g_pad[0]->IsTrigger(enButtonDown))
 	{
 		m_spriteRender.SetPosition({ 100.0f, 100.0f, 0.0f });
+		m_unity.SetLoopFlag(false);
 	}
 	if (g_pad[0]->IsPress(enButtonUp))
 	{
@@ -144,6 +151,9 @@ void Game::Update()
 		effectEmitter->Play();
 
 		
+		m_doorRender.PlayAnimation(enAnimClip_Open);
+		m_unity.Play();
+
 	}
 
 	//Bボタンが押されたら。
@@ -154,24 +164,17 @@ void Game::Update()
 		effectEmitter->SetScale({ 5.0f,5.0f,5.0f });
 		effectEmitter->Play();
 
-		Vector3 pos{ 500.0f,500.0f,0.0f };
-		m_unity.SetPosition(pos);
-		m_unity.Update();
+
+		m_unity.SetLoopFlag(true);
+
+		
 	}
 
-	if (m_unity.GetSpriteRendersSize() == m_unity.GetDrawNumber())
-	{
-		m_unity.SetDrawNumber(m_unity.GetDrawNumber() - m_unity.GetSpriteRendersSize());
-	}
-	else
-	{
-		m_unity.SetDrawNumber(m_unity.GetDrawNumber() +0.25f);
-	}
-
+	m_unity.Update();
 	m_spriteRender.Update();
 	//レベル2D側で読み込んだ画像の更新。
 	m_level2DRender.Update();
-
+	m_doorRender.Update();
 
 	//m_pgo.CreateBox(m_player->GetPosition(), Quaternion::Identity,Vector3::One);
 }
@@ -183,15 +186,17 @@ void Game::Render(RenderContext& rc)
 	{
 		//m_spriteRender2.Draw(rc);
 	}
-	//m_levelRender.Draw(rc);
+	m_levelRender.Draw(rc);
 	
 	m_level2DRender.Draw(rc);
 	if (g_pad[0]->IsPress(enButtonLeft))
 	{
-		m_spriteRender.Draw(rc);
+		//m_spriteRender.Draw(rc);
 
 	}
-	//bgRender.Draw(rc);
-	m_unity.Draw(rc);
+	bgRender.Draw(rc);
+	bgRender2.Draw(rc);
+	//m_doorRender.Draw(rc);
+	//m_unity.Draw(rc);
 	
 }

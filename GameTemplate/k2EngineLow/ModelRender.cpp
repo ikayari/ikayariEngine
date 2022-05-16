@@ -37,14 +37,21 @@ namespace nsK2EngineLow {
 	}
 	void ModelRender::Init(const char* filePath,
 		bool shadowRecieve,
+		bool Dithering,
 		AnimationClip* animationClips,
 		int numAnimationClips,
 		EnModelUpAxis enModelUpAxis)
 	{
 		ModelInitData initData;
-		//シェーダーファイルのファイルパス。
-		initData.m_fxFilePath = "Assets/shader/model.fx";
-
+		if (Dithering)
+		{
+			//シェーダーファイルのファイルパス。
+			initData.m_fxFilePath = "Assets/shader/model.fx";
+		}
+		else
+		{
+			initData.m_fxFilePath = "Assets/shader/DitheringShader.fx";
+		}
 
 		//モデルの定数バッファ用の情報をモデルの初期化情報として渡す。
 		initData.m_expandConstantBuffer = &g_renderingEngine.GetModelRenderCB();

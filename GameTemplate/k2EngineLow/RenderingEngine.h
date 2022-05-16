@@ -5,17 +5,17 @@
 
 namespace nsK2EngineLow
 {
+	struct ModelRenderCB
+	{
+	public:
+		Light m_light;          // ライト
+		Matrix mlvp; // ライトビュープロジェクション行列。
+		float ObjectCameraLength; //ディザリングで必要なやつ。
+
+	};
 	class RenderingEngine :public Noncopyable
 	{
 	public:
-		struct ModelRenderCB
-		{
-		public:
-			Light m_light;          // ライト
-			Matrix mlvp; // ライトビュープロジェクション行列。
-
-		};
-
 		void Init();
 		void AddRenderObject(IRenderer* renderobj)
 		{
@@ -50,7 +50,7 @@ namespace nsK2EngineLow
 		RenderTarget m_mainRenderTarget;
 
 	};
-
+	
 	extern RenderingEngine g_renderingEngine;
 
 }

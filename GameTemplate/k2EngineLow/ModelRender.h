@@ -21,6 +21,7 @@ namespace nsK2EngineLow {
 		/// <param name="enModelUpAxis">モデルの上方向</param>
 		void Init(const char* filePath,
 			bool shadowRecieve,
+			bool Dithering = false,
 			AnimationClip* animationClips=nullptr,
 			int numAnimationClips=0,
 			EnModelUpAxis enModelUpAxis = enModelUpAxisZ);
@@ -155,7 +156,8 @@ namespace nsK2EngineLow {
 		EnModelUpAxis			m_enFbxUpAxis = enModelUpAxisZ;			// FBXの上方向。
 		bool					m_isShadowCaster = true;
 
-		RenderingEngine::ModelRenderCB* m_modelCB;
+		ModelRenderCB* m_modelCB;
+		
 
 		
 

@@ -44,10 +44,12 @@ private:
 
 	SoundSource* m_bgm = nullptr;
 	ModelRender bgRender;
+	ModelRender bgRender2;
 
 	ModelRender m_doorRender;
 	// アニメーションクリップの番号を表す列挙型。
 	enum EnAnimationClip {
+		enAnimClip_Idle,
 		enAnimClip_Open,	// 0 : 待機アニメーション、
 		enAnimClip_Num,		// 1 :アニメーションクリップの数。
 	};

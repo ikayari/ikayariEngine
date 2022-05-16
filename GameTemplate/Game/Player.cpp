@@ -3,14 +3,14 @@
 
 bool Player::Start()
 {
-	m_modelRender.SetAnimationSpeed(0.05f);
+	
 	//アニメーションクリップをロードする。
 	m_animationClipArray[enAnimClip_Idle].Load("Assets/animData/idle.tka");
 	m_animationClipArray[enAnimClip_Idle].SetLoopFlag(true);
 	m_animationClipArray[enAnimClip_Run].Load("Assets/animData/walk.tka");
 	m_animationClipArray[enAnimClip_Run].SetLoopFlag(true);
 	//tkmファイルのファイルパスを指定する。
-	m_modelRender.Init("Assets/modelData/unityChan.tkm",false, m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
+	m_modelRender.Init("Assets/modelData/unityChan.tkm",false,false, m_animationClipArray, enAnimClip_Num, enModelUpAxisY);
 	m_charaCon.Init(25.0f, 75.0f, m_position);
 	return true;
 }

@@ -48,10 +48,7 @@ cbuffer LightCb : register(b1)
     
     float3 eyePos; //視点の位置。
     
-    float4x4 mLVP;
-    
-  
-	
+    float4x4 mLVP;	
 };
 
 
@@ -80,6 +77,8 @@ struct SPSIn{
     float3 normalInView : TEXCOORD2;     //カメラ空間の法線
     
     float4 posInLVP : TEXCOORD3; // ライトビュースクリーン空間でのピクセルの座標
+
+    float distToEye : TEXCOORD4;    //視点との距離
 };
 ///////////////////////////////////////////
 // 関数宣言
@@ -99,6 +98,12 @@ Texture2D<float4> g_albedo : register(t0);				//アルベドマップ
 StructuredBuffer<float4x4> g_boneMatrix : register(t3);	//ボーン行列。
 Texture2D<float4> g_shadowMap : register(t10); // シャドウマップ
 sampler g_sampler : register(s0);	//サンプラステート。
+static const int pattern[4][4] = {
+    { 0, 32,  8, 40},
+    { 48, 16, 56, 24},
+    { 12, 44,  4, 36},
+    { 60, 28, 52, 20},
+};
 
 ////////////////////////////////////////////////
 // 関数定義。
@@ -147,6 +152,15 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
     psIn.normalInView = normalize(mul(mView, psIn.normal));
     
     psIn.posInLVP = mul(mLVP, float4(psIn.worldPos, 1.0f));
+
+    // オブジェクトの座標をワールド行列の平行移動成分から取得する
+    float4 objectPos = m[3];
+
+    // オブジェクトの座標をカメラ座標系に変換する
+    float4 objectPosInCamera = mul(mView,objectPos);
+
+    // カメラからの距離を計算する
+    psIn.distToEye = length(objectPosInCamera);
 
 	return psIn;
 }
@@ -402,7 +416,7 @@ float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
         }
     }
    
-    float4 color = g_albedo.Sample(g_sampler, psIn.uv);
+   
 	//ライティングの結果をすべて加算する。
     float3 lig =  directionLig
                 + pointLig
@@ -410,16 +424,53 @@ float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
                 + ambientLight;
 	
     
-	float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);
 	
-		
-	albedoColor.xyz *= lig;
-    if (shadowreceive== true)
+ 
+
+    ///////////////////////////////////////////////////////////////////////////////
+    //ディザリング処理
+	// このピクセルのスクリーン座標系でのX座標、Y座標を4で割った余りを求める
+    int x = (int)fmod(psIn.pos.x, 4.0f);
+    int y = (int)fmod(psIn.pos.y, 4.0f);
+
+    // 上で求めた、xとyを利用して、このピクセルのディザリング閾値を取得する
+    int dither = pattern[y][x];
+
+    // カメラがオブジェクトのクリップ範囲内に入ると、
+       // 完全にオブジェクトがクリップされる
+       // （この数値を変更すると、オブジェクトが完全に消える範囲が変わる）
+    float clipRange = 250.0f;
+
+    // step-3 視点とクリップ範囲までの距離を計算する
+    // オブジェクトとカメラの距離が50以下になると、
+    // psIn.distToEye - clipRangeの結果がマイナスになるので、tに0が代入される
+    // psIn.distToEyeが50以上なら、tには視点からクリップ範囲までの距離が
+    // 計算される
+    float eyeToClipRange = max(0.0f, psIn.distToEye - clipRange);
+
+    // step-4 クリップ率を求める
+    // clipRateは0～1の値を取り、clipRateが1になると完全にクリップされる
+    // 下記のコードは、視点とクリップ範囲の距離が100以下になると、
+    // 線形にclipRateの1に近づいていき、eyeToClipRangeが0になると、
+    // clipRateが1になる計算になっている
+    float clipRate = 1.0f - min(1.0f, eyeToClipRange / 100.0f);
+
+    // step-5 clipRateを利用してピクセルキルを行う
+    // tの値は0～1の値をとる。tが0ならどのピクセルもクリップされない
+    // tの値が1になると、64以下のピクセルがクリップされるため、
+    // すべてのピクセルがキリップされる（ditherの値の最大値は62なので）
+    clip(dither - 64 * clipRate);
+    //ここまで
+    /////////////////////////////////////////////////////////////////////////////
+    float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);
+
+
+    albedoColor.xyz *= lig;
+    if (shadowreceive == true)
     {
         albedoColor.xyz *= shadowMap;
     }
- 
-	
+
 	return albedoColor;
 }
 // モデル用のピクセルシェーダーのエントリーポイント
