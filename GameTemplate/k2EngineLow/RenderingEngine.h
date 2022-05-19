@@ -10,8 +10,7 @@ namespace nsK2EngineLow
 	public:
 		Light m_light;          // ライト
 		Matrix mlvp; // ライトビュープロジェクション行列。
-		float ObjectCameraLength; //ディザリングで必要なやつ。
-
+		float DitheringLength=250.0f;
 	};
 	class RenderingEngine :public Noncopyable
 	{
@@ -24,7 +23,14 @@ namespace nsK2EngineLow
 
 		void Render2DDraw(RenderContext& rc);
 
-
+		/// <summary>
+		/// ディザリングのクリップ距離。デフォルトでは250.0f
+		/// </summary>
+		/// <param name="n">クリップ距離。</param>
+		void SetDitheringLength(float n)
+		{
+			m_modelRenderCB.DitheringLength = n;
+		}
 
 		void ShadowMapDraw(RenderContext& rc);
 

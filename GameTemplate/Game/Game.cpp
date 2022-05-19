@@ -10,12 +10,15 @@ bool Game::Start()
 	EffectEngine::GetInstance()->ResistEffect(1, u"Assets/effect/laser2.efk");
 	m_spriteRender.Init("Assets/sprite/flash.dds", 1600, 900);
 	
-	
-	bgRender.Init("Assets/modelData/teapot.tkm",true,true);
+	m_modelRender.SetDithering(en_pixeldithering);
+	m_modelRender.Init("Assets/modelData/background.tkm");
+	bgRender.SetDithering(en_dithering);
+	bgRender.Init("Assets/modelData/teapot.tkm");
 	bgRender.SetScale(Vector3::One * 5.0f);
 	bgRender.SetPosition({ 0.0f,100.0f,500.0f });
 	bgRender.Update();
-	bgRender2.Init("Assets/modelData/teapot.tkm", true, true);
+	bgRender2.SetDithering(en_pixeldithering);
+	bgRender2.Init("Assets/modelData/teapot.tkm");
 	bgRender2.SetScale(Vector3::One * 5.0f);
 	bgRender2.SetPosition({ 500.0f,100.0f,0.0f });
 	bgRender2.Update();
@@ -25,42 +28,28 @@ bool Game::Start()
 	m_animationClipArray[enAnimClip_Open].Load("Assets/animData/Door.tka");
 	m_animationClipArray[enAnimClip_Open].SetLoopFlag(false);
 	//m_doorRender.Init("Assets/modelData/Door.tkm", true, m_animationClipArray, enAnimClip_Num);
-
+	m_player = NewGO<Player>(0, "player");
+	Vector3 scale = Vector3::One * 8.0f;
+	
 	//レベルを構築する。
-	m_levelRender.Init("Assets/level3D/test5.tkl", [&](LevelObjectData& objData) {
+	m_levelRender.Init("Assets/levelData/dithering_test.tkl", [&](LevelObjectData& objData) {
 		//名前一致していたら。
-		if (objData.ForwardMatchName(L"ground") == true) {
-
+		if (objData.ForwardMatchName(L"LowPoly_Kon_PC") == true) {
 
 			//return falseにすると、Level側で読み込まれます。
-			return true;
+			return false;
 		}
-		else if (objData.EqualObjectName(L"unityChan") == true) {
+		else if (objData.ForwardMatchName(L"Dram") == true) {
 
-			m_player = NewGO<Player>(0, "player");
-			Vector3 scale = Vector3::One * 8.0f;
-			m_player->SetTRS(objData.position, objData.rotation,scale);
-			
-			/*bakasugi.Create({1000.0f,1000.0f,1000.0f});
-			RigidBodyInitData rbInfo;
-			rbInfo.collider = &bakasugi;
-			rbInfo.mass = 0.0f;
-			rbInfo.restitution = 0.0f;
-			aho.Init(rbInfo);
+			//return falseにすると、Level側で読み込まれます。
 
-			auto& btTrans = aho.GetBody()->getWorldTransform();
-			btVector3 btPos;
-			btPos = btVector3(objData.position.x, objData.position.y, objData.position.z);
-			btTrans.setOrigin(btPos);*/
-
-			
-
-			
-			return true;
+			return false;
 		}
-		else if (objData.ForwardMatchName(L"box") == true) {
-			m_levelRender.InitBoxCollider(objData);
-			return true;
+		else if (objData.ForwardMatchName(L"background") == true) {
+
+			//return falseにすると、Level側で読み込まれます。
+			
+			return false;
 		}
 		return false;
 		});
@@ -119,7 +108,8 @@ void Game::Update()
 		Vector3 red{ 1.0f,1.0f,5.0f };
 		//g_sceneLight.SetAmbientLight(red);
 		m_spriteRender.SetMulColor({ 0.5f, 0.5f, 0.5f, 0.5f });
-	
+		
+		g_renderingEngine.SetDitheringLength(20.0f);
 		m_levelRender.ReleaseBoxCollider();
 		m_unity.DrawNumberReset();
 	}
@@ -186,8 +176,9 @@ void Game::Render(RenderContext& rc)
 	{
 		//m_spriteRender2.Draw(rc);
 	}
-	m_levelRender.Draw(rc);
 	
+	m_modelRender.Draw(rc);
+	//m_levelRender.Draw(rc);
 	m_level2DRender.Draw(rc);
 	if (g_pad[0]->IsPress(enButtonLeft))
 	{

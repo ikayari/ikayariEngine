@@ -106,11 +106,6 @@ namespace nsK2EngineLow {
 		std::unique_ptr<BoxObjectData>	m_boxobject;
 		std::vector<std::unique_ptr<PhysicsStaticBox>> m_collider;
 
-		BoxObjectData objectData;
-
-		
-		int number = -1;
-
 		};
 
 }
