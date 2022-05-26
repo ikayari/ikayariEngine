@@ -26,11 +26,15 @@ namespace  nsK2EngineLow {
 		{
 			return;
 		}
+		/*
 		int spritenumber = m_spriteRenders.size();
 		for (int i = 0; i < spritenumber; i++)
 		{
 			m_spriteRenders[i]->Update();
 		}
+		*/
+		m_spriteRenders[m_drawnumber]->Update();
+
 		if (GetState() != enStop)
 		{
 			if (GetSpriteRendersSize() == GetDrawNumber())

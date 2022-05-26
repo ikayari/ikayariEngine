@@ -22,15 +22,14 @@ bool Game::Start()
 	bgRender2.SetScale(Vector3::One * 5.0f);
 	bgRender2.SetPosition({ 500.0f,100.0f,0.0f });
 	bgRender2.Update();
-	m_unity.Init("Assets/Sprites/UnityChan", 1600, 900, 57);
-	m_animationClipArray[enAnimClip_Idle].Load("Assets/animData/Door_Idle.tka");
-	m_animationClipArray[enAnimClip_Idle].SetLoopFlag(false);
-	m_animationClipArray[enAnimClip_Open].Load("Assets/animData/Door.tka");
-	m_animationClipArray[enAnimClip_Open].SetLoopFlag(false);
-	//m_doorRender.Init("Assets/modelData/Door.tkm", true, m_animationClipArray, enAnimClip_Num);
+	m_unity.Init("Assets/Sprites/Star", 1600, 900, 59);
+	m_unity.Play();
+	m_unity.SetDrawSpeed(4);
+	m_unity.SetLoopFlag(true);
 	m_player = NewGO<Player>(0, "player");
 	Vector3 scale = Vector3::One * 8.0f;
 	
+
 	//レベルを構築する。
 	m_levelRender.Init("Assets/levelData/dithering_test.tkl", [&](LevelObjectData& objData) {
 		//名前一致していたら。
@@ -109,9 +108,10 @@ void Game::Update()
 		//g_sceneLight.SetAmbientLight(red);
 		m_spriteRender.SetMulColor({ 0.5f, 0.5f, 0.5f, 0.5f });
 		
-		g_renderingEngine.SetDitheringLength(20.0f);
+		g_renderingEngine.SetDitheringLength(100.0f);
 		m_levelRender.ReleaseBoxCollider();
 		m_unity.DrawNumberReset();
+		g_pad[0]->SetVibration(1.0f, 1.0f);
 	}
 	if (g_pad[0]->IsTrigger(enButtonUp))
 	{
@@ -141,7 +141,7 @@ void Game::Update()
 		effectEmitter->Play();
 
 		
-		m_doorRender.PlayAnimation(enAnimClip_Open);
+		//m_doorRender.PlayAnimation(enAnimClip_Open);
 		m_unity.Play();
 
 	}
@@ -177,7 +177,7 @@ void Game::Render(RenderContext& rc)
 		//m_spriteRender2.Draw(rc);
 	}
 	
-	m_modelRender.Draw(rc);
+	//m_modelRender.Draw(rc);
 	//m_levelRender.Draw(rc);
 	m_level2DRender.Draw(rc);
 	if (g_pad[0]->IsPress(enButtonLeft))
@@ -188,6 +188,6 @@ void Game::Render(RenderContext& rc)
 	bgRender.Draw(rc);
 	bgRender2.Draw(rc);
 	//m_doorRender.Draw(rc);
-	//m_unity.Draw(rc);
+	m_unity.Draw(rc);
 	
 }

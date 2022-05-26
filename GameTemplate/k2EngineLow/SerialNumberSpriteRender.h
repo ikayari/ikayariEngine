@@ -208,7 +208,7 @@ namespace nsK2EngineLow {
 		/// <summary>
 		/// 描画速度。
 		/// </summary>
-		/// <param name="speed">指定した速度倍に再生されます。通常は1/4フレームに一回更新だと思います。</param>
+		/// <param name="speed">指定した速度倍に再生されます。現在2、４倍速しか不可能です。</param>
 		void SetDrawSpeed(int speed)
 		{
 			m_drawspeed = speed;
