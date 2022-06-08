@@ -252,6 +252,10 @@ namespace nsK2EngineLow {
 		{
 			m_isLoop=loop;
 		}
+		bool IsPlay()
+		{
+			return m_state;
+		}
 	private:
 		std::vector<std::unique_ptr<SpriteRender>> m_spriteRenders;
 		Vector3			m_position = Vector3::Zero;				//ç¿ïWÅB

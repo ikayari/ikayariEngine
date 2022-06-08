@@ -11,10 +11,10 @@
     <ClCompile Include="system\system.cpp">
       <Filter>system</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="TimerEffect.cpp" />
+    <ClCompile Include="Game.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />

@@ -93,6 +93,7 @@ namespace nsK2EngineLow {
 		GameObjectManager::GetInstance()->ExecuteUpdate();
 		// エフェクトエンジンの更新。
 		EffectEngine::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
+	
 	}
 	/// <summary>
 	/// 描画処理を実行。

@@ -5,6 +5,7 @@
 #include "physics/PhysicsGhostObject.h"
 
 #include "graphics/effect/EffectEmitter.h"
+#include "TimerEffect.h"
 #include <SerialNumberSpriteRender.h>
 
 class Player;
@@ -23,6 +24,7 @@ private:
 	ModelRender m_modelRender;
 	SpriteRender m_spriteRender;
 	SerialNumberSpriteRender m_unity;
+	SerialNumberSpriteRender m_unity2;
 
 	SpriteRender m_spriteRender2;
 
@@ -33,7 +35,7 @@ private:
 
 	BoxCollider box;
 	FontRender m_aho;
-	RigidBody aho;
+	
 	BoxCollider bakasugi;
 
 	PhysicsGhostObject m_pgo;
@@ -54,7 +56,10 @@ private:
 		enAnimClip_Num,		// 1 :アニメーションクリップの数。
 	};
 	AnimationClip m_animationClipArray[enAnimClip_Num];	// アニメーションクリップ
+	
+	EffectEmitter* m_effect;
 
+	FontRender aho;
 
 };
 

@@ -6,7 +6,7 @@
 bool Game::Start()
 {
 	//エフェクトを読み込む。
-	EffectEngine::GetInstance()->ResistEffect(0, u"Assets/effect/laser.efk");
+	EffectEngine::GetInstance()->ResistEffect(0, u"Assets/effect/ring.efk");
 	EffectEngine::GetInstance()->ResistEffect(1, u"Assets/effect/laser2.efk");
 	m_spriteRender.Init("Assets/sprite/flash.dds", 1600, 900);
 	
@@ -28,7 +28,8 @@ bool Game::Start()
 	m_unity.SetLoopFlag(true);
 	m_player = NewGO<Player>(0, "player");
 	Vector3 scale = Vector3::One * 8.0f;
-	
+
+
 
 	//レベルを構築する。
 	m_levelRender.Init("Assets/levelData/dithering_test.tkl", [&](LevelObjectData& objData) {
@@ -88,8 +89,9 @@ bool Game::Start()
 		return false;
 		});
 	m_camera = NewGO<GameCamera>(0, "gamecamera");
+
 	
-	m_aho.SetText(L"ふぉんろてんだー");
+
 
 	box.Create({ 100.0f,100.0f,100.0f });
 	
@@ -100,7 +102,7 @@ bool Game::Start()
 }
 void Game::Update()
 {
-	
+
 
 	if (g_pad[0]->IsTrigger(enButtonStart))
 	{
@@ -135,16 +137,16 @@ void Game::Update()
 	//Aボタンが押されたら。
 	if (g_pad[0]->IsTrigger(enButtonA))
 	{
-		EffectEmitter* effectEmitter = NewGO<EffectEmitter>(0);
-		effectEmitter->Init(0);
-		effectEmitter->SetScale({ 1.0f,1.0f,1.0f });
-		effectEmitter->Play();
+		m_effect = NewGO<EffectEmitter>(0);
+		m_effect->Init(0);
+		m_effect->Play();
 
 		
 		//m_doorRender.PlayAnimation(enAnimClip_Open);
 		m_unity.Play();
 
 	}
+
 
 	//Bボタンが押されたら。
 	if (g_pad[0]->IsTrigger(enButtonB))
@@ -171,7 +173,7 @@ void Game::Update()
 void Game::Render(RenderContext& rc)
 {
 	
-	//m_aho.Draw(rc);
+	m_aho.Draw(rc);
 	if (g_pad[0]->IsPress(enButtonA))
 	{
 		//m_spriteRender2.Draw(rc);
@@ -188,6 +190,7 @@ void Game::Render(RenderContext& rc)
 	bgRender.Draw(rc);
 	bgRender2.Draw(rc);
 	//m_doorRender.Draw(rc);
-	m_unity.Draw(rc);
+	//m_unity.Draw(rc);
+
 	
 }

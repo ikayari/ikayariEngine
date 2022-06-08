@@ -8,6 +8,7 @@ namespace  nsK2EngineLow {
 	void SerialNumberSpriteRender::Init(const char* filePath, const float w, const float h, const int n, AlphaBlendMode alphaBlendMode)
 	{
 		m_Maxnumber = n;
+		m_spriteRenders.reserve(n);
 		for (int a = 0; a <= m_Maxnumber; a++)
 		{
 			std::ostringstream oss;
